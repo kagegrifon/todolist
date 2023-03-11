@@ -11,10 +11,21 @@ export const TaskList: React.FC<ITaskList> = ({ tasks }) => {
         console.log({ modifiedTask })
     }, [])
 
+    const onDelete: ITaskItem['onDelete'] = React.useCallback((taskId) => {
+        console.log(`onDelete task`, tasks.find(t => t.id === taskId))
+    }, [])
+
+    const onEdit: ITaskItem['onEdit'] = React.useCallback((taskId) => {
+        console.log(`onEdit task`, tasks.find(t => t.id === taskId))
+    }, [])
+
     return <ul>
-        {tasks.map((task, i) =>
-            <li key={task.name + i}><TaskItem task={task} onChange={onChange} /></li>
-        )}
+        {tasks.map((task, i) => {
+            const taskItemProps: ITaskItem = {
+                task, onChange, onDelete, onEdit
+            }
+            return <li key={task.id}><TaskItem {...taskItemProps} /></li>
+        })}
 
     </ul>
 }
