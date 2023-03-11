@@ -1,1 +1,3 @@
-export const App = () => <h1>Hello from React with Typescript!</h1>;
+import { MainPage } from './page/Main'
+
+export const App = () => <MainPage />
