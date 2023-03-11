@@ -16,11 +16,11 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDAbstact {
     }
 
     public add(newData: Pick<ITask, 'name'>) {
-        const newTask:ITask = {
+        const newTask: ITask = {
             ...newData,
             isDone: false,
             id: Date.now(),
-         }
+        }
 
         this._list.push(newTask)
 
@@ -35,7 +35,7 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDAbstact {
 
     public getById(id: ITask['id']): ITask | undefined {
         return this._list.find(t => t.id === id)
-    } 
+    }
 
     public update(id: ITask['id'], modifiedTask: Partial<ITask>) {
         const modifiedTaskIndex = this._list.findIndex(t => t.id === id)
@@ -49,7 +49,7 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDAbstact {
             ...modifiedTask,
             id,
         }
-        
+
         this._list.splice(modifiedTaskIndex, 1, newTask)
 
         this.saveToLocalStorage()

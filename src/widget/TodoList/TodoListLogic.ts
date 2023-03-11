@@ -4,7 +4,7 @@ import * as React from "react"
 
 export const useTodoList = () => {
     const TaskCRUD = useTaskCRUD()
-    const [tasks, setTasks]  = React.useState(TaskCRUD.getAll())
+    const [tasks, setTasks] = React.useState(TaskCRUD.getAll())
 
     const onChange: ITaskItem['onChange'] = React.useCallback((taskId, modifiedTask) => {
         TaskCRUD.update(taskId, modifiedTask)
@@ -23,7 +23,7 @@ export const useTodoList = () => {
         }
 
         const newTaskName = prompt('Edit task name', task.name)
-        TaskCRUD.update(taskId, { name: newTaskName})
+        TaskCRUD.update(taskId, { name: newTaskName })
 
         setTasks([...TaskCRUD.getAll()])
     }, [])
