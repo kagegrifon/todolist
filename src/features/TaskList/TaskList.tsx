@@ -4,21 +4,12 @@ import { ITask } from "entity/Task"
 
 export interface ITaskList {
     tasks: ITask[]
+    onChange: ITaskItem['onChange']
+    onDelete: ITaskItem['onDelete']
+    onEdit: ITaskItem['onEdit']
 }
 
-export const TaskList: React.FC<ITaskList> = ({ tasks }) => {
-    const onChange: ITaskItem['onChange'] = React.useCallback((modifiedTask) => {
-        console.log({ modifiedTask })
-    }, [])
-
-    const onDelete: ITaskItem['onDelete'] = React.useCallback((taskId) => {
-        console.log(`onDelete task`, tasks.find(t => t.id === taskId))
-    }, [])
-
-    const onEdit: ITaskItem['onEdit'] = React.useCallback((taskId) => {
-        console.log(`onEdit task`, tasks.find(t => t.id === taskId))
-    }, [])
-
+export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete, onEdit }) => {
     return <ul>
         {tasks.map((task, i) => {
             const taskItemProps: ITaskItem = {

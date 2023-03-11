@@ -3,14 +3,14 @@ import type { ITask } from 'entity/Task'
 
 export interface ITaskItem {
     task: ITask
-    onChange: (modifiedTask: Partial<ITask>) => void
+    onChange: (taskId: ITask['id'], modifiedTask: Partial<ITask>) => void
     onDelete: (taskId: ITask['id']) => void
     onEdit: (taskId: ITask['id']) => void
 }
 
 export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, onEdit }) => {
     const onDoneChange = React.useCallback(() => {
-        onChange({ isDone: !task.isDone })
+        onChange(task.id, { isDone: !task.isDone })
     }, [task.isDone])
 
     const onEditClick = React.useCallback(() => {

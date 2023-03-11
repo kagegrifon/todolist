@@ -1,5 +1,2 @@
-export type ITask = {
-    id: number;
-    name: string;
-    isDone: boolean
-}
+export * from './type'
+export * from './TaskCRUD'
