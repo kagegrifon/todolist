@@ -1,4 +1,5 @@
 import { TaskList } from "features/TaskList/TaskList"
+import * as React from "react"
 import { Title } from "shared/Title"
 
 const taskDataList = [
@@ -20,5 +21,10 @@ const taskDataList = [
 ]
 
 export const TodoList: React.FC = () => {
-    return <div><Title>New TodoList</Title><TaskList tasks={taskDataList} /> </div>
+    const onAddNewTaskClick = React.useCallback(() => {
+        const taskName = prompt('New task name')
+        console.log({taskName})
+    }, [])
+
+    return <div><Title>New TodoList</Title><button onClick={onAddNewTaskClick}>add new task</button><TaskList tasks={taskDataList} /> </div>
 } 
