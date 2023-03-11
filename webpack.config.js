@@ -10,6 +10,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle[contenthash].js',
+        assetModuleFilename: path.join("images", "[name].[contenthash][ext]"),
         clean: true
     },
     devtool: NODE_ENV === "development" ? "inline-source-map" : null,
@@ -17,6 +18,9 @@ module.exports = {
         rules: [{
             test: /\.html$/,
             use: "html-loader",
+        }, {
+            test: /\.(jpg|png|jpeg|gif)$/,
+            type: "asset/resource",
         }, {
             test: /\.tsx?$/,
             use: "ts-loader",
