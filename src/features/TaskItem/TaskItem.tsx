@@ -1,5 +1,9 @@
 import * as React from "react"
 import type { ITask } from 'entity/Task'
+import styled from 'styled-components'
+import { IconButton } from "shared/Button"
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface ITaskItem {
     task: ITask
@@ -7,6 +11,11 @@ export interface ITaskItem {
     onDelete: (taskId: ITask['id']) => void
     onEdit: (taskId: ITask['id']) => void
 }
+
+const EditButton = styled(IconButton)`
+    border: none;
+    background: red;
+`
 
 export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, onEdit }) => {
     const onDoneChange = React.useCallback(() => {
@@ -24,7 +33,7 @@ export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, onEdit
     return <div>
         <input type="checkbox" onChange={onDoneChange} checked={task.isDone} />
         <span>{task.name}</span>
-        <button onClick={onEditClick}>icon pen</button>
-        <button onClick={onDeleteClick}>icon basket</button>
+        <EditButton onClick={onEditClick}><EditIcon /></EditButton>
+        <IconButton onClick={onDeleteClick}><DeleteIcon /></IconButton>
     </div>
 }
