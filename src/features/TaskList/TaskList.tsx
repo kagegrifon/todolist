@@ -2,6 +2,11 @@ import * as React from "react"
 import { TaskItem, ITaskItem } from 'features/TaskItem'
 import { ITask } from "entity/Task"
 import List from '@mui/material/List';
+import { styled } from "shared/globalDeps";
+
+const StyledTaskItem = styled(TaskItem)`
+    min-width: 200px;
+`
 
 export interface ITaskList {
     tasks: ITask[]
@@ -16,7 +21,7 @@ export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete, onEdi
             const taskItemProps: ITaskItem = {
                 task, onChange, onDelete, onEdit
             }
-            return <TaskItem key={task.id} {...taskItemProps} />
+            return <StyledTaskItem key={task.id} {...taskItemProps} />
         })}
 
     </List>

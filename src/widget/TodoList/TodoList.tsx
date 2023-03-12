@@ -20,7 +20,7 @@ export const TodoList: React.FC = React.memo(() => {
     const { taskListProps, onAddNewTask, addNewTaskModal } = useTodoList()
 
     return <Container><div>
-        <Title>New TodoList</Title>
+        <Title>TodoList</Title>
         <AddButton variant="contained" size="medium" color='success' onClick={addNewTaskModal.open}>
             <AddIcon /> Add new
         </AddButton>

@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { memo } from "react";
+import { Spacer } from "shared/Spacer";
 
 const TaskName = styled.span<{ isDone: boolean; isEditMode: boolean }>`
     ${({ isDone }) => isDone && 'text-decoration: line-through;'}
@@ -19,18 +20,20 @@ const TaskName = styled.span<{ isDone: boolean; isEditMode: boolean }>`
 
 const StyledListItem = styled(ListItem)`
     padding: 0;
+    display: flex;
 `
 
 const TaskNameContainer = styled.div``
 
 export interface ITaskItem {
+    className?: string
     task: ITask
     onChange: (taskId: ITask['id'], modifiedTask: Partial<ITask>) => void
     onDelete: (taskId: ITask['id']) => void
     onEdit: (taskId: ITask['id']) => void
 }
 
-export const TaskItem: React.FC<ITaskItem> = memo(({ task, onChange, onDelete, onEdit }) => {
+export const TaskItem: React.FC<ITaskItem> = memo(({ task, onChange, onDelete, onEdit, className }) => {
     const [isEditMode, setIsEditMode] = useState(false)
     const [tempName, setTempName] = useState(task.name)
     const taskNameRef = useRef<HTMLInputElement>(null);
@@ -59,7 +62,7 @@ export const TaskItem: React.FC<ITaskItem> = memo(({ task, onChange, onDelete, o
     useEffect(() => {
         if (isEditMode && isOutside) {
             stopListen()
-            
+
             if (tempName !== task.name) {
                 onChange(task.id, { name: tempName })
             }
@@ -67,14 +70,15 @@ export const TaskItem: React.FC<ITaskItem> = memo(({ task, onChange, onDelete, o
         }
     }, [isOutside, isEditMode])
 
-    return <StyledListItem>
-        <Checkbox onChange={onDoneChange} checked={task.isDone} />
+    return <StyledListItem className={className}>
+        <Checkbox onChange={onDoneChange} checked={task.isDone} color="success" />
         <TaskNameContainer ref={taskNameRef}>
             {
                 isEditMode && <TextField id="standard-basic" variant="standard" value={tempName} onChange={e => setTempName(e.target.value)} />}
             <TaskName onClick={() => setIsEditMode(true)} isDone={task.isDone} isEditMode={isEditMode}>{task.name}</TaskName>
 
         </TaskNameContainer>
+        < Spacer />
         <IconButton onClick={onDeleteClick}><DeleteIcon /></IconButton>
     </StyledListItem>
 })
