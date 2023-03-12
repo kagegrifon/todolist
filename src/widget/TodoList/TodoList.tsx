@@ -2,11 +2,30 @@ import { TaskList } from "features/TaskList/TaskList"
 import * as React from "react"
 import { Title } from "shared/Title"
 import { useTodoList } from "./TodoListLogic"
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import { AddTaskModal } from "features/AddTaskModal";
+import { styled } from "shared/globalDeps";
 
-export const TodoList: React.FC = () => {
-    const { taskListProps, onAddNewTaskClick } = useTodoList()
+const AddButton = styled(Button)`
+    text-transform: none;
+`
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
-    return <div>
-        <Title>New TodoList</Title><button onClick={onAddNewTaskClick}>add new task</button><TaskList {...taskListProps} />
+export const TodoList: React.FC = React.memo(() => {
+    const { taskListProps, onAddNewTask, addNewTaskModal } = useTodoList()
+
+    return <Container><div>
+        <Title>New TodoList</Title>
+        <AddButton variant="contained" size="medium" color='success' onClick={addNewTaskModal.open}>
+            <AddIcon /> Add new
+        </AddButton>
+        <TaskList {...taskListProps} />
+        <AddTaskModal open={addNewTaskModal.isOpen} onClose={addNewTaskModal.close} onOk={onAddNewTask}/>
     </div>
-} 
+    </Container>
+}) 

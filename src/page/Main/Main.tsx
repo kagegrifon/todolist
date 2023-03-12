@@ -1,5 +1,13 @@
+import { styled } from "shared/globalDeps"
+import { PageContainer } from "shared/PageContainer"
 import { TodoList } from "widget/TodoList"
 
-export const MainPage:React.FC = () => {
-    return <TodoList />
+const StyledPageContainer = styled(PageContainer)`
+    padding-top: 175px;
+`
+
+export const MainPage: React.FC = () => {
+    return <StyledPageContainer>
+        <TodoList />
+    </StyledPageContainer>
 } 

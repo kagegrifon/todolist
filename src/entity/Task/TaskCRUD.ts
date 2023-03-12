@@ -16,6 +16,10 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDAbstact {
     }
 
     public add(newData: Pick<ITask, 'name'>) {
+        if (!newData.name) {
+            return
+        }
+
         const newTask: ITask = {
             ...newData,
             isDone: false,
@@ -48,6 +52,10 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDAbstact {
             ...this._list[modifiedTaskIndex],
             ...modifiedTask,
             id,
+        }
+
+        if (modifiedTask.name === '') {
+            newTask.name = this._list[modifiedTaskIndex].name
         }
 
         this._list.splice(modifiedTaskIndex, 1, newTask)

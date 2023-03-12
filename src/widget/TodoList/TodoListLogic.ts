@@ -1,3 +1,4 @@
+import { ITask } from "entity/Task"
 import { useTaskCRUD } from "entity/Task/hook"
 import { ITaskItem } from "features/TaskItem"
 import * as React from "react"
@@ -23,17 +24,20 @@ export const useTodoList = () => {
         }
 
         const newTaskName = prompt('Edit task name', task.name)
-        TaskCRUD.update(taskId, { name: newTaskName })
+        if (newTaskName) {
+            TaskCRUD.update(taskId, { name: newTaskName })
+        }
 
         setTasks([...TaskCRUD.getAll()])
     }, [])
 
-    const onAddNewTaskClick = React.useCallback(() => {
-        const name = prompt('New task name')
-        TaskCRUD.add({ name })
+    const onAddNewTask = React.useCallback((newTaskData: Pick<ITask, 'name'>) => {
+        TaskCRUD.add(newTaskData)
 
         setTasks([...TaskCRUD.getAll()])
     }, [])
+
+    const addNewTaskModal = useAddNewTaskModal()
 
     return {
         taskListProps: {
@@ -42,6 +46,23 @@ export const useTodoList = () => {
             onDelete,
             onEdit
         },
-        onAddNewTaskClick
+        addNewTaskModal,
+        onAddNewTask
+    }
+}
+
+function useAddNewTaskModal() {
+    const [isAddNewTaskOpen, setIsAddNewTaskOpen] = React.useState(false)
+
+    const openAddNewTaskModal = React.useCallback(() => {
+        setIsAddNewTaskOpen(true)
+    }, [isAddNewTaskOpen])
+
+    const closeAddNewTaskModal= React.useCallback(() => { setIsAddNewTaskOpen(false); }, [isAddNewTaskOpen])
+
+    return {
+        isOpen: isAddNewTaskOpen,
+        open: openAddNewTaskModal,
+        close: closeAddNewTaskModal
     }
 }

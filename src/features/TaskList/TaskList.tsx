@@ -1,6 +1,7 @@
 import * as React from "react"
 import { TaskItem, ITaskItem } from 'features/TaskItem'
 import { ITask } from "entity/Task"
+import List from '@mui/material/List';
 
 export interface ITaskList {
     tasks: ITask[]
@@ -10,13 +11,13 @@ export interface ITaskList {
 }
 
 export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete, onEdit }) => {
-    return <ul>
+    return <List>
         {tasks.map((task, i) => {
             const taskItemProps: ITaskItem = {
                 task, onChange, onDelete, onEdit
             }
-            return <li key={task.id}><TaskItem {...taskItemProps} /></li>
+            return <TaskItem key={task.id} {...taskItemProps} />
         })}
 
-    </ul>
+    </List>
 }
