@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { styled } from "shared/globalDeps"
 import { PageContainer } from "shared/PageContainer"
 import { TodoList } from "widget/TodoList"

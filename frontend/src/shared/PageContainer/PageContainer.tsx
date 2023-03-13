@@ -4,7 +4,6 @@ import { styled } from "shared/globalDeps";
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100vh;
 `
 
 const Spacer = styled.div`

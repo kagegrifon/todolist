@@ -12,14 +12,13 @@ export interface ITaskList {
     tasks: ITask[]
     onChange: ITaskItem['onChange']
     onDelete: ITaskItem['onDelete']
-    onEdit: ITaskItem['onEdit']
 }
 
-export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete, onEdit }) => {
+export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete, }) => {
     return <List>
-        {tasks.map((task, i) => {
+        {tasks.map((task) => {
             const taskItemProps: ITaskItem = {
-                task, onChange, onDelete, onEdit
+                task, onChange, onDelete,
             }
             return <StyledTaskItem key={task.id} {...taskItemProps} />
         })}

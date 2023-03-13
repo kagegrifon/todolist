@@ -16,7 +16,7 @@ const Container = styled.div`
     align-items: center;
 `
 
-export const TodoList: React.FC = React.memo(() => {
+export const TodoList: React.FC = () => {
     const { taskListProps, onAddNewTask, addNewTaskModal } = useTodoList()
 
     return <Container><div>
@@ -28,4 +28,6 @@ export const TodoList: React.FC = React.memo(() => {
         <AddTaskModal open={addNewTaskModal.isOpen} onClose={addNewTaskModal.close} onOk={onAddNewTask}/>
     </div>
     </Container>
-}) 
+}
+
+export default React.memo(TodoList)
