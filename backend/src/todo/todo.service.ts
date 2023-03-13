@@ -1,40 +1,51 @@
-import { TodoServiceAbstract, ITodo } from './type'
+import { todoModel } from './todo.model'
+import { TodoServiceAbstract, ITodo, TodoModelAbstract } from './type'
 
-const mockObject = { id: '1', name: 'asfasf', isDone: false }
+class TodoService implements TodoServiceAbstract {
+    model: TodoModelAbstract
 
-class TodoService implements TodoServiceAbstract{
+    constructor(model: TodoModelAbstract) {
+        this.model = model
+
+        this.create = this.create.bind(this)
+        this.getById = this.getById.bind(this)
+        this.getAll = this.getAll.bind(this)
+        this.update = this.update.bind(this)
+        this.delete = this.delete.bind(this)
+    }
+
     async create(newTodo: Omit<ITodo, 'id'>) {
-        console.log('create')
+        const { name } = newTodo
+        const isDone = newTodo.isDone || false
 
-        console.log({newTodo})
-        return mockObject
+        const result = await this.model.create({ name, isDone})
+
+        return result
     }
 
     async getById(id: string) {
-        console.log('getById')
+        const result = await this.model.getById(id)
 
-        console.log({id})
-        return mockObject
+        return result
     }
 
     async getAll() {
-        console.log('getAll')
-        return [mockObject]
+        const result = await this.model.getAll()
+
+        return result
     }
 
     async update(id: string, updatingTodo: Partial<ITodo>) {
-        console.log('update')
+        const result = await this.model.update(id, updatingTodo)
 
-        console.log({id, updatingTodo})
-        return mockObject
+        return result
     }
 
     async delete(id: string) {
-        console.log('delete')
+        const result = await this.model.delete(id)
 
-        console.log({id})
-        return mockObject
+        return result
     }
 }
 
-export const todoService =  new TodoService()
+export const todoService = new TodoService(todoModel)
