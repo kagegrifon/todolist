@@ -1,8 +1,8 @@
-import * as React from "react"
+import * as React from 'react'
 import { TaskItem, ITaskItem } from 'features/TaskItem'
-import { ITask } from "entity/Task"
+import { ITask } from 'entity/Task'
 import List from '@mui/material/List';
-import { styled } from "shared/globalDeps";
+import { styled } from 'shared/globalDeps';
 
 const StyledTaskItem = styled(TaskItem)`
     min-width: 200px;

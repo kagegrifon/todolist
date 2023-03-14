@@ -1,13 +1,21 @@
 export type ITask = {
-    id: number;
+    id: string;
     name: string;
     isDone: boolean
 }
 
-export interface ITaskCRUDAbstact {
-    add: (newData: Pick<ITask, 'name'>) => ITask
-    getAll: () => Array<ITask>
-    getById: (id: ITask['id']) => ITask | undefined
-    update: (id: ITask['id'], modifiedTask: Partial<ITask>) => void
-    delete: (id: ITask['id']) => void
+export interface ITaskCRUDModelAbstact {
+    add: (newTask: ITask) => Promise<ITask>
+    getAll: () => Promise<Array<ITask>>
+    getById: (id: ITask['id']) => Promise<ITask | undefined>
+    update: (id: ITask['id'], modifiedTask: Partial<ITask>) => Promise<ITask>
+    delete: (id: ITask['id']) => Promise<ITask>
+}
+
+export interface ITaskServiceAbstact {
+    add: (newData: Pick<ITask, 'name'>) => Promise<ITask>
+    getAll: () => Promise<Array<ITask>>
+    getById: (id: ITask['id']) => Promise<ITask | undefined>
+    update: (id: ITask['id'], modifiedTask: Partial<ITask>) => Promise<ITask>
+    delete: (id: ITask['id']) => Promise<ITask>
 }

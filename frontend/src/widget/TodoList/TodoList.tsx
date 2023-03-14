@@ -1,11 +1,11 @@
-import { TaskList } from "features/TaskList/TaskList"
-import * as React from "react"
-import { Title } from "shared/Title"
-import { useTodoList } from "./TodoListLogic"
+import { TaskList } from 'features/TaskList'
+import * as React from 'react'
+import { Title } from 'shared/Title'
+import { useTodoList } from './TodoListLogic'
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { AddTaskModal } from "features/AddTaskModal";
-import { styled } from "shared/globalDeps";
+import { AddTaskModal } from 'features/AddTaskModal';
+import { styled } from 'shared/globalDeps';
 
 const AddButton = styled(Button)`
     text-transform: none;

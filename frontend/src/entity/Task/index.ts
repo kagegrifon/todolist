@@ -1,2 +1,2 @@
 export * from './type'
-export * from './TaskCRUD'
+export * from './model/TaskCRUDByLocalstorage'

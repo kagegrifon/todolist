@@ -1,40 +1,46 @@
-import { ITask } from "entity/Task"
-import { useTaskCRUD } from "entity/Task/hook"
-import { ITaskItem } from "features/TaskItem"
-import * as React from "react"
+import { ITask } from 'entity/Task'
+import { useTaskCRUD } from 'entity/Task/hook'
+import { ITaskItem } from 'features/TaskItem'
+import * as React from 'react'
 
 export const useTodoList = () => {
-    const TaskCRUD = useTaskCRUD()
-    const [tasks, setTasks] = React.useState(TaskCRUD.getAll())
+    const TaskService = useTaskCRUD()
+    const [tasks, setTasks] = React.useState<ITask[]>([])
 
-    const onChange: ITaskItem['onChange'] = React.useCallback((taskId, modifiedTask) => {
-        TaskCRUD.update(taskId, modifiedTask)
-        setTasks([...TaskCRUD.getAll()])
+    const getAllTasks = React.useCallback(() => {
+        TaskService.getAll().then((tasks) => {
+            setTasks(tasks)
+        })
+    }, [setTasks])
+
+    React.useEffect(() => {
+        getAllTasks()
+    }, [])
+
+    const onChange: ITaskItem['onChange'] = React.useCallback(async (taskId, modifiedTask) => {
+        TaskService.update(taskId, modifiedTask).then((updatedTask) => {
+            const oldTaskIndex = tasks.findIndex(t => t.id === updatedTask.id)
+
+            if (oldTaskIndex !== -1) {
+                const tasksCopy = tasks.slice()
+                tasksCopy.splice(oldTaskIndex, 1, updatedTask)
+                setTasks(tasksCopy)
+            } else {
+                throw Error(`There is no such task with id ${updatedTask.id}. Try to refresh page`)
+            }
+        })
     }, [])
 
     const onDelete: ITaskItem['onDelete'] = React.useCallback((taskId) => {
-        TaskCRUD.delete(taskId)
-        setTasks([...TaskCRUD.getAll()])
-    }, [])
-
-    const onEdit: ITaskItem['onEdit'] = React.useCallback((taskId) => {
-        const task = TaskCRUD.getById(taskId)
-        if (!task) {
-            throw Error(`no such task with id, ${taskId}`)
-        }
-
-        const newTaskName = prompt('Edit task name', task.name)
-        if (newTaskName) {
-            TaskCRUD.update(taskId, { name: newTaskName })
-        }
-
-        setTasks([...TaskCRUD.getAll()])
+        TaskService.delete(taskId).then(() => {
+            setTasks(tasks.filter(t => t.id === taskId))
+        })
     }, [])
 
     const onAddNewTask = React.useCallback((newTaskData: Pick<ITask, 'name'>) => {
-        TaskCRUD.add(newTaskData)
-
-        setTasks([...TaskCRUD.getAll()])
+        TaskService.add(newTaskData).then(newTask => {
+            setTasks([...tasks, newTask])
+        })
     }, [])
 
     const addNewTaskModal = useAddNewTaskModal()
@@ -44,10 +50,9 @@ export const useTodoList = () => {
             tasks,
             onChange,
             onDelete,
-            onEdit
         },
         addNewTaskModal,
-        onAddNewTask
+        onAddNewTask,
     }
 }
 
@@ -58,11 +63,13 @@ function useAddNewTaskModal() {
         setIsAddNewTaskOpen(true)
     }, [isAddNewTaskOpen])
 
-    const closeAddNewTaskModal= React.useCallback(() => { setIsAddNewTaskOpen(false); }, [isAddNewTaskOpen])
+    const closeAddNewTaskModal = React.useCallback(() => {
+        setIsAddNewTaskOpen(false)
+    }, [isAddNewTaskOpen])
 
     return {
         isOpen: isAddNewTaskOpen,
         open: openAddNewTaskModal,
-        close: closeAddNewTaskModal
+        close: closeAddNewTaskModal,
     }
 }
