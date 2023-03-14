@@ -7,10 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import { useIsOutsideClick } from 'shared/hook/useIsOutsideClick'
-import { useRef } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { memo } from 'react'
+import { useRef, useEffect, useState, memo } from 'react'
 import { Spacer } from 'shared/Spacer'
 
 const TaskName = styled.span<{ isDone: boolean; isEditMode: boolean }>`
@@ -40,11 +37,11 @@ export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, classN
 
   const onDoneChange = React.useCallback(() => {
     onChange(task.id, { isDone: !task.isDone })
-  }, [task.isDone])
+  }, [onChange, task.id, task.isDone])
 
   const onDeleteClick = React.useCallback(() => {
     onDelete(task.id)
-  }, [task.id])
+  }, [task.id, onDelete])
 
   useEffect(() => {
     if (isEditMode && taskNameRef.current) {
@@ -52,6 +49,7 @@ export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, classN
     }
 
     return () => stopListen()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode])
 
   useEffect(() => {
@@ -63,6 +61,7 @@ export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, classN
       }
       setIsEditMode(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOutside, isEditMode])
 
   return (

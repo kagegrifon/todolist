@@ -1,10 +1,10 @@
-import * as React from "react"
+import * as React from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { ITask } from "entity/Task";
-import { styled } from "shared/globalDeps";
+import { ITask } from 'entity/Task';
+import { styled } from 'shared/globalDeps';
 
 const Container = styled(Box)`
 display: flex;
@@ -38,7 +38,7 @@ export const AddTaskModal: React.FC<IAddTaskModal> = ({ open, onOk, onClose }) =
     const onAddButtonClick = React.useCallback(() => {
         onOk({ name: taskName })
         onClose()
-    }, [taskName])
+    }, [onClose, onOk, taskName])
 
     const onNameChange = React.useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => { setTaskName(e.target.value) }

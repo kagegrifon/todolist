@@ -1,36 +1,79 @@
 import { ITask, ITaskCRUDModelAbstact } from '../type'
+import { API } from 'shared/api'
 
-const MOCK_TASK: ITask = {
-    id: '1',
-    name: 'asfdsa',
-    isDone: false,
-}
+export const taskUrl = '/'
 
 export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
-    // constructor() {}
+    public async add(newTask: ITask) {
+        try {
+            const request = await API.request<ITask>({
+                url: taskUrl,
+                method: 'post',
+                data: newTask,
+            })
 
-    public add(newTask: ITask) {
-        return Promise.resolve(newTask)
+            return request.data
+        } catch (e) {
+            alert('Something happen while adding new task, check internet connection')
+            console.log(e)
+        }
     }
 
-    public getAll() {
-        return Promise.resolve([])
+    public async getAll() {
+        try {
+            const request = await API.request<ITask[]>({
+                url: taskUrl,
+                method: 'get',
+            })
+
+            return request.data
+        } catch (e) {
+            alert('Something happen while geting tasks, check internet connection')
+            console.log(e)
+            return []
+        }
     }
 
-    public getById(id: ITask['id']) {
-        console.log(id)
-        return Promise.resolve(MOCK_TASK)
+    public async getById(id: ITask['id']) {
+        try {
+            const request = await API.request<ITask>({
+                url: `${taskUrl}${id}`,
+                method: 'get',
+            })
+
+            return request.data
+        } catch (e) {
+            alert('Something happen while geting task, check internet connection')
+            console.log(e)
+        }
     }
 
-    public update(id: ITask['id'], modifiedTask: Partial<ITask>) {
-        console.log(id, modifiedTask)
+    public async update(id: ITask['id'], modifiedTask: Partial<ITask>) {
+        try {
+            const request = await API.request<ITask>({
+                url: `${taskUrl}${id}`,
+                method: 'put',
+                data: modifiedTask,
+            })
 
-        return Promise.resolve(MOCK_TASK)
+            return request.data
+        } catch (e) {
+            alert('Something happen while updating task, check internet connection')
+            console.log(e)
+        }
     }
 
-    public delete(id: ITask['id']) {
-        console.log(id)
+    public async delete(id: ITask['id']) {
+        try {
+            const request = await API.request<ITask>({
+                url: `${taskUrl}${id}`,
+                method: 'delete',
+            })
 
-        return Promise.resolve(MOCK_TASK)
+            return request.data
+        } catch (e) {
+            alert('Something happen while updating task, check internet connection')
+            console.log(e)
+        }
     }
 }

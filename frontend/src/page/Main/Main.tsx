@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { styled } from "shared/globalDeps"
-import { PageContainer } from "shared/PageContainer"
-import { TodoList } from "widget/TodoList"
+import { styled } from 'shared/globalDeps'
+import { PageContainer } from 'shared/PageContainer'
+import { TodoList } from 'widget/TodoList'
 
 const StyledPageContainer = styled(PageContainer)`
     padding-top: 175px;

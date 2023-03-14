@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { styled } from "shared/globalDeps";
+import { FC } from 'react';
+import { styled } from 'shared/globalDeps';
 
 const Container = styled.div`
     display: flex;

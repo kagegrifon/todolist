@@ -11,10 +11,11 @@ export const useTodoList = () => {
         TaskService.getAll().then((tasks) => {
             setTasks(tasks)
         })
-    }, [setTasks])
+    }, [TaskService])
 
     React.useEffect(() => {
         getAllTasks()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const onChange: ITaskItem['onChange'] = React.useCallback(async (taskId, modifiedTask) => {
@@ -29,19 +30,19 @@ export const useTodoList = () => {
                 throw Error(`There is no such task with id ${updatedTask.id}. Try to refresh page`)
             }
         })
-    }, [])
+    }, [TaskService, tasks])
 
     const onDelete: ITaskItem['onDelete'] = React.useCallback((taskId) => {
         TaskService.delete(taskId).then(() => {
-            setTasks(tasks.filter(t => t.id === taskId))
+            setTasks(tasks.filter(t => t.id !== taskId))
         })
-    }, [])
+    }, [TaskService, tasks])
 
     const onAddNewTask = React.useCallback((newTaskData: Pick<ITask, 'name'>) => {
         TaskService.add(newTaskData).then(newTask => {
             setTasks([...tasks, newTask])
         })
-    }, [])
+    }, [TaskService, tasks])
 
     const addNewTaskModal = useAddNewTaskModal()
 
@@ -61,11 +62,11 @@ function useAddNewTaskModal() {
 
     const openAddNewTaskModal = React.useCallback(() => {
         setIsAddNewTaskOpen(true)
-    }, [isAddNewTaskOpen])
+    }, [])
 
     const closeAddNewTaskModal = React.useCallback(() => {
         setIsAddNewTaskOpen(false)
-    }, [isAddNewTaskOpen])
+    }, [])
 
     return {
         isOpen: isAddNewTaskOpen,

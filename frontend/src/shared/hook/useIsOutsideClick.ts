@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 export function useIsOutsideClick<T extends HTMLElement>(refNode: React.MutableRefObject<T >) {
     const [isOutside, setIsOutside] = React.useState(false)
@@ -7,7 +7,7 @@ export function useIsOutsideClick<T extends HTMLElement>(refNode: React.MutableR
         if (refNode.current && !(refNode.current).contains(e.target as Node)) {
             setIsOutside(true)
         }
-    }, [setIsOutside])
+    }, [refNode])
 
     const startListen = React.useCallback(() => {
         document.body.addEventListener('click', handler)
