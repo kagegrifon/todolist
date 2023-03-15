@@ -44,6 +44,15 @@ export const AddTaskModal: React.FC<IAddTaskModal> = ({ open, onOk, onClose }) =
         (e: React.ChangeEvent<HTMLInputElement>) => { setTaskName(e.target.value) }
         , [setTaskName])
 
+    const onKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => { 
+            if (e.key === 'Enter' && !!taskName) {
+                e.preventDefault()
+                e.stopPropagation()
+                onAddButtonClick()
+            }}
+    , [onAddButtonClick, taskName])
+
     return <Modal
         open={open}
         onClose={onClose}
@@ -56,6 +65,8 @@ export const AddTaskModal: React.FC<IAddTaskModal> = ({ open, onOk, onClose }) =
                 required
                 name="name"
                 onChange={onNameChange}
+                onKeyDown={onKeyDown}
+                autoFocus
             />
 
             <Button variant="contained" color='success' onClick={onAddButtonClick} sx={{textTransform: 'none'}}>Add</Button>
