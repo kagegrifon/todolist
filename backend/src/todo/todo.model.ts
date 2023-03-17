@@ -1,66 +1,51 @@
-import { TodoModelAbstract, ITodo, TodoDBSchema } from './type'
-import { db } from 'data-access/connect'
-import { DB_TABLE_NAME } from 'data-access/tableNames'
+import { TodoModelAbstract, ITodo } from './type'
+import { ToDoModelORM } from './todo.schema'
 
-const mapFromTodoSchema = (todoSchemaItem: TodoDBSchema): ITodo => {
-    return ({
-        id: todoSchemaItem.id,
-        name: todoSchemaItem.name,
-        isDone: todoSchemaItem.isdone
-    })
-}
+const mapFromTodoSchema = (todoSchemaItem: ToDoModelORM): ITodo => {
+    const todoItem = todoSchemaItem.toJSON() as ITodo
 
-const DEFAULT_TODO: Partial<ITodo> = {
-    isDone: false
+    return {
+        id: todoItem.id,
+        name: todoItem.name,
+        isDone: todoItem.isDone,
+    }
 }
 
 class TodoModel implements TodoModelAbstract {
     async create(newTodo: Omit<ITodo, 'id'>) {
-        const { name, isDone } = { ...DEFAULT_TODO, ...newTodo }
+        const { name, isDone } = newTodo
+        const queryResult = await ToDoModelORM.query().insert({
+            name,
+            isDone,
+        })
 
-        const queryResult = await db.query<TodoDBSchema>(
-            `INSERT INTO ${DB_TABLE_NAME.todo} (name, isDone) values ($1, $2) RETURNING *`,
-            [name, isDone],
-        )
-
-        return queryResult.rows.map(mapFromTodoSchema)[0]
+        return mapFromTodoSchema(queryResult)
     }
 
     async getById(id: string) {
-        const queryResult = await db.query<TodoDBSchema>(
-            `SELECT * from ${DB_TABLE_NAME.todo} where id = $1`,
-            [id],
-        )
+        const queryResult = await ToDoModelORM.query().findById(id)
 
-        return queryResult.rows.map(mapFromTodoSchema)[0]
+        return mapFromTodoSchema(queryResult)
     }
 
     async getAll() {
-        const queryResult = await db.query<TodoDBSchema>(`SELECT * from ${DB_TABLE_NAME.todo}`)
+        const queryResult = await ToDoModelORM.query()
 
-        return queryResult.rows.map(mapFromTodoSchema)
+        return queryResult.map(mapFromTodoSchema)
     }
 
     async update(id: string, updatingTodo: Partial<ITodo>) {
-        const oldTodo = await this.getById(id)
+        await ToDoModelORM.query().findById(id).patch(updatingTodo)
+        const updatedTodo = await ToDoModelORM.query().findById(id)
 
-        const { name, isDone } = {
-            ...oldTodo,
-            ...updatingTodo,
-        }
-
-        const queryResult = await db.query<TodoDBSchema>(
-            `UPDATE ${DB_TABLE_NAME.todo} set name = $1, isDone = $2 where id = $3 RETURNING *`,
-            [name, isDone, id],
-        )
-
-        return queryResult.rows.map(mapFromTodoSchema)[0]
+        return mapFromTodoSchema(updatedTodo)
     }
 
     async delete(id: string) {
-        const queryResult = await db.query<TodoDBSchema>(`DELETE from ${DB_TABLE_NAME.todo} where id = $1`, [id])
+        const deletedTodo = await ToDoModelORM.query().findById(id)
+        await ToDoModelORM.query().deleteById(id)
 
-        return queryResult.rows.map(mapFromTodoSchema)[0]
+        return mapFromTodoSchema(deletedTodo)
     }
 }
 

@@ -4,12 +4,6 @@ export interface ITodo {
     isDone?: boolean
 }
 
-export interface TodoDBSchema {
-    id: string
-    isdone: boolean
-    name: string
-}
-
 export interface TodoServiceAbstract {
     create(newTodo: Omit<ITodo, 'id'>): Promise<ITodo>
     getById(id: ITodo['id']): Promise<ITodo | undefined>
