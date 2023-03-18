@@ -63,6 +63,7 @@ export const AddTaskModal: React.FC<IAddTaskModal> = ({ open, onOk, onClose }) =
             <Title>New Task</Title>
             <TextField
                 required
+                multiline
                 name="name"
                 onChange={onNameChange}
                 onKeyDown={onKeyDown}

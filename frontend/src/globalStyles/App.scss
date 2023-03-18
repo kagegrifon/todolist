@@ -1,0 +1,23 @@
+@import './cssReset.scss';
+
+@font-face {
+    font-family: "IndieFlower-Regular";
+    src: url('assets/font/IndieFlower-Regular.ttf') format('truetype');
+  }
+
+
+body {
+    padding: 0;
+    background: white;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    font-family:'IndieFlower-Regular', 'PT Sans', Arial, sans-serif ;
+    letter-spacing: 1px;
+}
+
+#root {
+    height: 100%;
+}

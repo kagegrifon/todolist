@@ -10,7 +10,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle[contenthash].js',
-        assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+        assetModuleFilename: 'images/[name].[contenthash][ext]',
         clean: true,
     },
     devtool: NODE_ENV === 'development' ? 'inline-source-map' : null,

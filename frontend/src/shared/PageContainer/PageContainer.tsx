@@ -4,6 +4,7 @@ import { styled } from 'shared/globalDeps';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    min-height: 100%;
 `
 
 const Spacer = styled.div`
@@ -11,7 +12,7 @@ const Spacer = styled.div`
 `
 
 interface IPageContainer {
-    children: JSX.Element,
+    children: JSX.Element | JSX.Element[],
     className?: string,
 }
 
