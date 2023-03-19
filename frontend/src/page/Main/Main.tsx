@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { styled } from 'shared/globalDeps'
-import { PageContainer } from 'shared/PageContainer'
+import { PageContainer } from 'shared/component/PageContainer'
 import { TodoList } from 'widget/TodoList'
 
 import MainBackgroundBottomPart from 'assets/img/mainBackground_bottom_part.jpg'
 import MainBackgroundTopPart from 'assets/img/mainBackground_top_part.jpg'
-import { Spacer } from 'shared/Spacer'
+import { Spacer } from 'shared/component/Spacer'
 
 const StyledPageContainer = styled(PageContainer)`
     position: relative;
