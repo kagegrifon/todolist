@@ -44,7 +44,7 @@ export interface ITaskItem {
     onDelete: (taskId: ITask['id']) => void
 }
 
-export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, className }) => {
+export let TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, className }) => {
     const [isEditMode, setIsEditMode] = useState(false)
     const [tempName, setTempName] = useState(task.name)
     const taskNameRef = useRef<HTMLInputElement>(null)
@@ -114,4 +114,4 @@ export const TaskItem: React.FC<ITaskItem> = ({ task, onChange, onDelete, classN
     )
 }
 
-export default { TaskItem: memo(TaskItem) }
+TaskItem = memo(TaskItem)

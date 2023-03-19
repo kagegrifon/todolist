@@ -39,7 +39,7 @@ const TextureBackground = styled.div`
     z-index: -1;
 `
 
-export const MainPage: React.FC = () => {
+export let MainPage: React.FC = () => {
     return (
         <StyledPageContainer>
             <TextureBackground />
@@ -49,3 +49,5 @@ export const MainPage: React.FC = () => {
         </StyledPageContainer>
     )
 }
+
+MainPage = React.memo(MainPage)

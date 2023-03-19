@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { styled } from 'shared/globalDeps';
 
 const Container = styled.div`
@@ -16,9 +16,11 @@ interface IPageContainer {
     className?: string,
 }
 
-export const PageContainer: FC<IPageContainer> = ({ children, className }) => {
+export let PageContainer: React.FC<IPageContainer> = ({ children, className }) => {
     return <Container className={className}>
         {children}
         <Spacer/>
     </Container>
 }
+
+PageContainer = React.memo(PageContainer)

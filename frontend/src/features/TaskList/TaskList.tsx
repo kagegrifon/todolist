@@ -26,7 +26,7 @@ export interface ITaskList {
     onDelete: ITaskItem['onDelete']
 }
 
-export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete }) => {
+export let TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete }) => {
     return (
         <List>
             {tasks.map((task) => {
@@ -40,3 +40,5 @@ export const TaskList: React.FC<ITaskList> = ({ tasks, onChange, onDelete }) => 
         </List>
     )
 }
+
+TaskList = React.memo(TaskList)
