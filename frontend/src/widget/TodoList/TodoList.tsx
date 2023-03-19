@@ -1,7 +1,7 @@
 import { TaskList } from 'features/TaskList'
 import * as React from 'react'
 import { Title } from 'shared/Title'
-import { useTodoList } from './TodoListLogic'
+import { useTodoList } from './useTodoList'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
 import { AddTaskModal } from 'features/AddTaskModal'
@@ -50,4 +50,4 @@ export const TodoList: React.FC = () => {
     )
 }
 
-export default React.memo(TodoList)
+export default { TodoList: React.memo(TodoList) } 

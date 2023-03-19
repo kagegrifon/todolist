@@ -49,9 +49,11 @@ export const useTodoList = () => {
     const onAddNewTask = React.useCallback(
         (newTaskData: Pick<ITask, 'name'>) => {
             TaskService.add(newTaskData).then((newTask) => {
-                setTasks((prevTasks) => {
-                    return [...prevTasks, newTask]
-                })
+                if (newTask) {
+                    setTasks((prevTasks) => {
+                        return [...prevTasks, newTask]
+                    })
+                }
             })
         },
         [TaskService],
