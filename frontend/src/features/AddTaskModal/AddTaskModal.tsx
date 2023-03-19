@@ -24,8 +24,6 @@ const Title = styled.h3`
     margin: 0;
 `
 
-
-
 export interface IAddTaskModal {
     open: boolean
     onOk: (newTaskData: Pick<ITask, 'name'>) => void

@@ -1,11 +1,11 @@
 import { TaskList } from 'features/TaskList'
 import * as React from 'react'
-import { Title } from 'shared/Title'
 import { useTodoList } from './useTodoList'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
 import { AddTaskModal } from 'features/AddTaskModal'
 import { styled } from 'shared/globalDeps'
+import { Typography } from '@mui/material'
 
 const AddButton = styled(Button)`
     text-transform: none;
@@ -30,7 +30,9 @@ export let TodoList: React.FC = () => {
     return (
         <Container>
             <InnerWrapper>
-                <Title>TodoList</Title>
+                <Typography variant='h1' sx={{ lineHeight: 'inherit' }}>
+                    TodoList
+                </Typography>
                 <AddButton
                     variant='contained'
                     size='medium'
@@ -50,4 +52,4 @@ export let TodoList: React.FC = () => {
     )
 }
 
-TodoList = React.memo(TodoList) 
+TodoList = React.memo(TodoList)
