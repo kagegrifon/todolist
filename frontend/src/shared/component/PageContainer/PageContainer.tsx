@@ -8,10 +8,6 @@ const Container = styled.div`
     position: relative;
 `
 
-const Spacer = styled.div`
-    flex-grow: 1;
-`
-
 interface IPageContainer {
     children: JSX.Element | JSX.Element[],
     className?: string,
@@ -20,7 +16,6 @@ interface IPageContainer {
 export let PageContainer: React.FC<IPageContainer> = ({ children, className }) => {
     return <Container className={className}>
         {children}
-        <Spacer/>
     </Container>
 }
 
