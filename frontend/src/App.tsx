@@ -1,10 +1,16 @@
 import * as React from 'react'
-import { ThemeProvider } from '@mui/material/styles';
+// import { RouteHandler } from 'Router'
+import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './globalStyles/muiGlobal'
+import { RouterProvider } from 'react-router-dom'
+import { router } from 'Router'
 
-import { MainPage } from './page/Main'
+import './globalStyles/App.scss'
 
-import './globalStyles/App.scss' 
+export const App: React.FC = () => (
+    <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
 
-
-export const App: React.FC = () => <ThemeProvider theme={theme}><MainPage /></ThemeProvider>
+    </ThemeProvider>
+)
+        // <RouteHandler />

@@ -12,6 +12,7 @@ module.exports = {
         filename: 'bundle[contenthash].js',
         assetModuleFilename: 'images/[name].[contenthash][ext]',
         clean: true,
+        publicPath: '/'
     },
     devtool: NODE_ENV === 'development' ? 'inline-source-map' : null,
     module: {
@@ -60,5 +61,6 @@ module.exports = {
         compress: true,
         port: 9000,
         open: true,
+        historyApiFallback: true
     },
 }
