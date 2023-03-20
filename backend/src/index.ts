@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import { todoRouter } from './todo'
+import { todoRouter } from './entity/todo'
 import { dbSetup } from 'data-access/dbSetup'
 import { PORT } from 'config/env'
-import { authRouter } from 'auth'
+import { authRouter } from 'entity/auth'
 
 const app = express()
 
