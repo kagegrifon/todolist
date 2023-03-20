@@ -1,3 +1,4 @@
 export const DB_TABLE_NAME = {
-    todo: 'todo'
+    todo: 'todo',
+    user: 'user',
 }

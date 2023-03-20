@@ -1,7 +1,6 @@
 import { Model } from 'objection'
 import { DB_TABLE_NAME } from 'data-access/tableNames'
-import type { Knex } from "knex";
-
+import type { Knex } from 'knex'
 
 export class ToDoModelORM extends Model {
     static get tableName() {
@@ -11,12 +10,13 @@ export class ToDoModelORM extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['name'],
+            required: ['name', 'userId'],
 
             properties: {
                 id: { type: 'integer' },
                 name: { type: 'string', minLength: 1, maxLength: 255 },
                 isDone: { type: 'boolean' },
+                userId: { type: 'integer' },
             },
         }
     }
@@ -31,5 +31,13 @@ export async function createTodoSchema(knex: Knex) {
         table.increments('id').primary()
         table.string('name').notNullable()
         table.boolean('isDone').defaultTo(false)
+        table
+            .integer('userId')
+            .unsigned()
+            .references('id')
+            .inTable(DB_TABLE_NAME.user)
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE')
+            .index()
     })
 }
