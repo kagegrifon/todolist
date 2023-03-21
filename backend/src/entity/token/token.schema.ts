@@ -3,23 +3,9 @@ import { DB_TABLE_NAME } from 'data-access/tableNames'
 import type { Knex } from 'knex'
 import { UserModelORM } from 'entity/user/user.schema'
 
-export class ToDoModelORM extends Model {
+export class TokenModelORM extends Model {
     static get tableName() {
-        return DB_TABLE_NAME.todo
-    }
-
-    static get jsonSchema() {
-        return {
-            type: 'object',
-            required: ['name', 'userId'],
-
-            properties: {
-                id: { type: 'integer' },
-                name: { type: 'string', minLength: 1, maxLength: 255 },
-                isDone: { type: 'boolean' },
-                userId: { type: 'integer' },
-            },
-        }
+        return DB_TABLE_NAME.token
     }
 
     static get relationMappings() {
@@ -28,23 +14,35 @@ export class ToDoModelORM extends Model {
                 relation: Model.HasOneRelation,
                 modelClass: UserModelORM,
                 join: {
-                    from: `${DB_TABLE_NAME.todo}.userId`,
+                    from: `${DB_TABLE_NAME.token}.userId`,
                     to: `${DB_TABLE_NAME.user}.id`,
                 },
             },
         }
     }
+
+    static get jsonSchema() {
+        return {
+            type: 'object',
+            required: ['refreshToken', 'userId'],
+
+            properties: {
+                id: { type: 'integer' },
+                refreshToken: { type: 'string', minLength: 1, maxLength: 255 },
+                userId: { type: 'integer' },
+            },
+        }
+    }
 }
 
-export async function createTodoSchema(knex: Knex) {
-    if (await knex.schema.hasTable(DB_TABLE_NAME.todo)) {
+export async function createTokenSchema(knex: Knex) {
+    if (await knex.schema.hasTable(DB_TABLE_NAME.token)) {
         return Promise.resolve(knex.schema)
     }
 
-    return knex.schema.createTable(DB_TABLE_NAME.todo, (table) => {
+    return knex.schema.createTable(DB_TABLE_NAME.token, (table) => {
         table.increments('id').primary()
-        table.string('name').notNullable()
-        table.boolean('isDone').defaultTo(false)
+        table.string('refreshToken').notNullable()
         table
             .integer('userId')
             .unsigned()

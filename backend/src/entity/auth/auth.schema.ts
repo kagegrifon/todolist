@@ -3,20 +3,20 @@ import { DB_TABLE_NAME } from 'data-access/tableNames'
 import type { Knex } from 'knex'
 import { UserModelORM } from 'entity/user/user.schema'
 
-export class ToDoModelORM extends Model {
+export class AuthModelORM extends Model {
     static get tableName() {
-        return DB_TABLE_NAME.todo
+        return DB_TABLE_NAME.auth
     }
 
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['name', 'userId'],
+            required: ['password', 'isActivated', 'activationLink', 'userId'],
 
             properties: {
                 id: { type: 'integer' },
-                name: { type: 'string', minLength: 1, maxLength: 255 },
-                isDone: { type: 'boolean' },
+                activationLink: { type: 'string', minLength: 1, maxLength: 255 },
+                isActivated: { type: 'boolean' },
                 userId: { type: 'integer' },
             },
         }
@@ -28,7 +28,7 @@ export class ToDoModelORM extends Model {
                 relation: Model.HasOneRelation,
                 modelClass: UserModelORM,
                 join: {
-                    from: `${DB_TABLE_NAME.todo}.userId`,
+                    from: `${DB_TABLE_NAME.auth}.userId`,
                     to: `${DB_TABLE_NAME.user}.id`,
                 },
             },
@@ -36,15 +36,16 @@ export class ToDoModelORM extends Model {
     }
 }
 
-export async function createTodoSchema(knex: Knex) {
-    if (await knex.schema.hasTable(DB_TABLE_NAME.todo)) {
+export async function createAuthSchema(knex: Knex) {
+    if (await knex.schema.hasTable(DB_TABLE_NAME.auth)) {
         return Promise.resolve(knex.schema)
     }
 
-    return knex.schema.createTable(DB_TABLE_NAME.todo, (table) => {
+    return knex.schema.createTable(DB_TABLE_NAME.auth, (table) => {
         table.increments('id').primary()
-        table.string('name').notNullable()
-        table.boolean('isDone').defaultTo(false)
+        table.string('password').notNullable()
+        table.string('activationLink').notNullable()
+        table.boolean('isActivated').defaultTo(false)
         table
             .integer('userId')
             .unsigned()
