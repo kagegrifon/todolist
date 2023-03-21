@@ -1,7 +1,12 @@
-export interface IUser {
-    id: number
-    email: string
-    name: boolean
+import { IUser } from 'entity/user/type'
+import { TypicalCRUDModelAbstract, TypicalCRUDServiceAbstract } from 'shared/type'
+
+export interface IAuth {
+    id: string
+    password: string
+    isActivated: boolean
+    activationLink: string
+    userId: IUser['id']
 }
 
 export interface IUserSignUp {
@@ -15,11 +20,13 @@ export interface IUserLogin {
     password: string
 }
 
-export interface AuthServiceAbstract {
+export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
     registrate(data: IUserSignUp): Promise<undefined>
     login(data: IUserLogin): Promise<undefined>
-    logout(): Promise<undefined>
-    activate(link: string, userId: IUser['id']): Promise<undefined>
+    logout(userId: IAuth['userId']): Promise<undefined>
+    activate(link: IAuth['activationLink'], userId: IAuth['userId']): Promise<undefined>
     // TODO exclude from separate entity
-    refresh(): Promise<undefined>
+    refresh(userId: IAuth['userId']): Promise<undefined>
 }
+
+export type AuthModelAbstract = TypicalCRUDModelAbstract<IAuth>

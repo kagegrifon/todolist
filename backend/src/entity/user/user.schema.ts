@@ -1,7 +1,8 @@
 import { Model } from 'objection'
 import { DB_TABLE_NAME } from 'data-access/tableNames'
-import { ToDoModelORM } from '../todo/todo.schema'
+import { ToDoModelORM } from 'entity/todo/todo.schema'
 import type { Knex } from 'knex'
+import { TokenModelORM } from 'entity/token/token.schema'
 
 export class UserModelORM extends Model {
     static get tableName() {
@@ -16,6 +17,14 @@ export class UserModelORM extends Model {
                 join: {
                     from: `${DB_TABLE_NAME.user}.id`,
                     to: `${DB_TABLE_NAME.todo}.userId`,
+                },
+            },
+            token: {
+                relation: Model.HasOneRelation,
+                modelClass: TokenModelORM,
+                join: {
+                    from: `${DB_TABLE_NAME.user}.id`,
+                    to: `${DB_TABLE_NAME.token}.userId`,
                 },
             },
         }
