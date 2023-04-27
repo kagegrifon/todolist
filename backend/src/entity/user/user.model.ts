@@ -43,6 +43,12 @@ class UserModel implements UserModelAbstract {
 
         return mapFromORMSchemaToDTO(deleted)
     }
+
+    async findByEmail(email: IUser['email']) {
+        const foundEmail = await UserModelORM.query().select('email').where('email', '=', email)
+
+        return foundEmail.map(mapFromORMSchemaToDTO)
+    }
 }
 
 export const userModel = new UserModel()

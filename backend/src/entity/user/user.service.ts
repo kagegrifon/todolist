@@ -8,6 +8,10 @@ class UserService extends TypicalCRUDService<IUser> {
     constructor(model: UserModelAbstract) {
         super(model)
     }
+
+    findByEmail(email: IUser['email']) {
+        return this.model.findByEmail(email)
+    }
 }
 
 export const userService = new UserService(userModel)

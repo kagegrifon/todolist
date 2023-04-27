@@ -6,4 +6,6 @@ export interface IUser {
     email: string
 }
 
-export type UserModelAbstract = TypicalCRUDModelAbstract<IUser>
+export interface UserModelAbstract extends TypicalCRUDModelAbstract<IUser> {
+    findByEmail(email: IUser['email']): Promise<IUser[]>
+}
