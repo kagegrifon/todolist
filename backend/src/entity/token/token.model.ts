@@ -1,5 +1,6 @@
 import { TokenModelAbstract, IToken } from './type'
 import { TokenModelORM } from './token.schema'
+import { IUser } from 'entity/user/type'
 
 const mapFromORMSchemaToDTO = (schemaItem: TokenModelORM): IToken => {
     const item = schemaItem.toJSON() as IToken
@@ -42,6 +43,14 @@ class TokenModel implements TokenModelAbstract {
         await TokenModelORM.query().deleteById(id)
 
         return mapFromORMSchemaToDTO(deleted)
+    }
+
+    async getByUserId(userId: IUser['id']) {
+        const queryResult = await TokenModelORM.query()
+            .select('userId')
+            .where('userId', '=', userId)
+
+        return queryResult.map(mapFromORMSchemaToDTO)
     }
 }
 
