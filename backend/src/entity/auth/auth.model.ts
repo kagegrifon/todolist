@@ -1,4 +1,4 @@
-import { AuthModelAbstract, IAuth } from './type'
+import { AuthModelAbstract, IAuth } from './auth.type'
 import { AuthModelORM } from './auth.schema'
 
 const mapFromORMSchemaToDTO = (schemaItem: AuthModelORM): IAuth => {

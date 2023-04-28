@@ -1,3 +1,4 @@
+import { IGeneratedTokens } from 'entity/token/type'
 import { IUser } from 'entity/user/type'
 import { TypicalCRUDModelAbstract, TypicalCRUDServiceAbstract } from 'shared/type'
 
@@ -21,7 +22,7 @@ export interface IUserLogin {
 }
 
 export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
-    registrate(data: IUserSignUp): Promise<undefined>
+    registrate(data: IUserSignUp): Promise<IUser | IGeneratedTokens>
     login(data: IUserLogin): Promise<undefined>
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink'], userId: IAuth['userId']): Promise<undefined>

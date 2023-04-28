@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import { authService } from './auth.service'
-import { AuthServiceAbstract, IAuth, IUserLogin, IUserSignUp } from './type'
+import { AuthServiceAbstract, IAuth, IUserLogin, IUserSignUp } from './auth.type'
 // import { todoService } from './todo.service'
 
 const mockLogin: IUserLogin = {
