@@ -33,10 +33,17 @@ class AuthController {
 
     async registrate(req: Request, res: Response) {
         try {
-            const result = await this.service.registrate(mockSignUp)
+            const { email, password, name } = req.body
 
-            res.send(result)
+            const userData = await this.service.registrate({ email, password, name })
+
+            res.cookie('refreshToken', userData.refreshToken, {
+                httpOnly: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
+            res.json(userData)
         } catch (e) {
+            console.log(e)
             res.status(500).send(e)
         }
     }
