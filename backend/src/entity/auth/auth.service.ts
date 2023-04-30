@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { TypicalCRUDService } from 'shared/service'
 import { authModel } from './auth.model'
 import { AuthModelAbstract, AuthServiceAbstract, IAuth, IUserLogin, IUserSignUp } from './auth.type'
 import { UserModelAbstract } from 'entity/user/type'
 import { userService } from 'entity/user/user.service'
-import { HASH_SALT } from 'config/env'
+import { API_URL, HASH_SALT } from 'config/env'
 import { MailServiceAbstract } from 'entity/mail/mail.type'
 import { mailService } from 'entity/mail/mail.service'
 import { TokenServiceAbstract } from 'entity/token/type'
@@ -30,7 +30,8 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
     }
 
     async registrate({ email, password, name }: IUserSignUp) {
-        const isEmailExist = await this.userService.findByEmail(email)
+        const isEmailExist = (await this.userService.findByEmail(email))[0]
+
         if (isEmailExist) {
             throw Error(`The email ${email} is already exist`)
         }
@@ -38,7 +39,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const newUser = await this.userService.create({ email, name })
 
         const passwordHash = await bcrypt.hash(password, HASH_SALT)
-        const activationLink = uuid.v4()
+        const activationLink = uuidv4()
 
         await this.model.create({
             isActivated: false,
@@ -47,7 +48,10 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
             userId: newUser.id,
         })
 
-        await this.mailService.sendActivationMail({ to: email, link: activationLink })
+        await this.mailService.sendActivationMail({
+            to: email,
+            link: `${API_URL}/api/auth/activate/${activationLink}`,
+        })
 
         const token = this.tokenService.generateTokens(newUser)
         this.tokenService.saveToken(newUser.id, token.refreshToken)

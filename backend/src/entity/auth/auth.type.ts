@@ -22,7 +22,7 @@ export interface IUserLogin {
 }
 
 export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
-    registrate(data: IUserSignUp): Promise<IUser | IGeneratedTokens>
+    registrate(data: IUserSignUp): Promise<IUser & IGeneratedTokens>
     login(data: IUserLogin): Promise<undefined>
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink'], userId: IAuth['userId']): Promise<undefined>

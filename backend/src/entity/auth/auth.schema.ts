@@ -24,7 +24,7 @@ export class AuthModelORM extends Model {
 
     static get relationMappings() {
         return {
-            todo: {
+            auth: {
                 relation: Model.HasOneRelation,
                 modelClass: UserModelORM,
                 join: {
