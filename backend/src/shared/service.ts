@@ -3,11 +3,7 @@ import { TypicalCRUDModelAbstract, TypicalCRUDServiceAbstract, WithId } from './
 export class TypicalCRUDService<Entity extends WithId>
     implements TypicalCRUDServiceAbstract<Entity>
 {
-    model: TypicalCRUDModelAbstract<Entity>
-
-    constructor(model: TypicalCRUDModelAbstract<Entity>) {
-        this.model = model
-
+    constructor(public model: TypicalCRUDModelAbstract<Entity>) {
         this.create = this.create.bind(this)
         this.getById = this.getById.bind(this)
         this.getAll = this.getAll.bind(this)

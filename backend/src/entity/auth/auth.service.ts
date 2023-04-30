@@ -12,21 +12,13 @@ import { TokenServiceAbstract } from 'entity/token/type'
 import { tokenService } from 'entity/token/token.service'
 
 class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstract {
-    model: AuthModelAbstract
-    userService: UserModelAbstract
-    mailService: MailServiceAbstract
-    tokenService: TokenServiceAbstract
-
     constructor(
-        model: AuthModelAbstract,
-        userService: UserModelAbstract,
-        mailService: MailServiceAbstract,
-        tokenService: TokenServiceAbstract,
+        public model: AuthModelAbstract,
+        private userService: UserModelAbstract,
+        private mailService: MailServiceAbstract,
+        private tokenService: TokenServiceAbstract,
     ) {
         super(model)
-        this.userService = userService
-        this.mailService = mailService
-        this.tokenService = tokenService
     }
 
     async registrate({ email, password, name }: IUserSignUp) {
