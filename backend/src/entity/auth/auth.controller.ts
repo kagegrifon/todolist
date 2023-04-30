@@ -1,14 +1,12 @@
 import type { Request, Response } from 'express'
 import { authService } from './auth.service'
-import { AuthServiceAbstract, IAuth, IUserLogin, IUserSignUp } from './auth.type'
-// import { todoService } from './todo.service'
+import { AuthServiceAbstract, IAuth, IUserLogin } from './auth.type'
+import { CLIENT_URL } from 'config/env'
 
 const mockLogin: IUserLogin = {
     email: 'mock@email.com',
     password: '1234',
 }
-
-const mockSignUp: IUserSignUp = { email: 'email', name: 'name', password: 'password' }
 
 const mockAuth: IAuth = {
     activationLink: 'somelink',
@@ -70,9 +68,10 @@ class AuthController {
 
     async activate(req: Request, res: Response) {
         try {
-            const result = await this.service.activate(mockAuth.activationLink, mockAuth.userId)
+            const { link } = req.params
+            await this.service.activate(link)
 
-            res.send(result)
+            res.redirect(CLIENT_URL)
         } catch (e) {
             res.status(500).send(e)
         }

@@ -8,15 +8,6 @@ class MailService implements MailServiceAbstract {
     transport: nodemailer.Transporter<SMTPTransport.SentMessageInfo>
 
     constructor() {
-        console.log({
-            host: SMTP_HOST,
-            port: SMTP_PORT,
-            secure: false,
-            auth: {
-                user: SMTP_USER_NAME,
-                pass: SMTP_APP_PASSWORD,
-            },
-        })
         this.transport = nodemailer.createTransport({
             host: SMTP_HOST,
             port: SMTP_PORT,

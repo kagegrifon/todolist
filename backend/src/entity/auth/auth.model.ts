@@ -45,6 +45,12 @@ class AuthModel implements AuthModelAbstract {
 
         return mapFromORMSchemaToDTO(deleted)
     }
+
+    async findByActivationLink(link: IAuth['activationLink']) {
+        const queryResult = await AuthModelORM.query().where('activationLink', '=', link)
+
+        return queryResult.map(mapFromORMSchemaToDTO)
+    }
 }
 
 export const authModel = new AuthModel()

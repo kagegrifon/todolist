@@ -72,9 +72,15 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         return undefined
     }
 
-    async activate(link: IAuth['activationLink'], userId: IAuth['userId']) {
-        console.log({ link, userId })
-        return undefined
+    async activate(link: IAuth['activationLink']) {
+        const userAuth = (await this.model.findByActivationLink(link))[0]
+
+        if (!userAuth) {
+            throw Error('no user for the activation link')
+        }
+
+        userAuth.isActivated = true
+        await this.model.update(userAuth.id, userAuth)
     }
 
     async refresh(userId: IAuth['userId']) {
