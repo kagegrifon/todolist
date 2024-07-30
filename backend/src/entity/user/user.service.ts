@@ -9,9 +9,9 @@ class UserService extends TypicalCRUDService<IUser> {
         super(model)
     }
 
-    findByEmail(email: IUser['email']) {
-        return this.model.findByEmail(email)
-    }
+    // findByEmail(email: IUser['email']) {
+    //     return this.model.findByEmail(email)
+    // }
 }
 
 export const userService = new UserService(userModel)

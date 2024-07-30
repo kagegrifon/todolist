@@ -11,18 +11,19 @@ export interface IAuth {
 }
 
 export interface IUserSignUp {
-    email: string
-    name: string
+    // TODO: add after fixing mailing
+    // email: string
+    login: string
     password: string
 }
 
 export interface IUserLogin {
-    email: string
+    login: string
     password: string
 }
 
 export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
-    registrate(data: IUserSignUp): Promise<IUser & IGeneratedTokens>
+    register(data: IUserSignUp): Promise<IUser & IGeneratedTokens>
     login(data: IUserLogin): Promise<undefined>
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink']): Promise<void>

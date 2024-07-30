@@ -33,12 +33,15 @@ export class UserModelORM extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['name', 'email'],
+            // TODO: add after fixing mailing
+            // required: ['name', 'email'],
+            required: ['login'],
 
             properties: {
                 id: { type: 'integer' },
-                name: { type: 'string', minLength: 1, maxLength: 255 },
-                email: { type: 'string', minLength: 1, maxLength: 255 },
+                login: { type: 'string', minLength: 1, maxLength: 255 },
+                // TODO: add after fixing mailing
+                // email: { type: 'string', minLength: 1, maxLength: 255 },
             },
         }
     }
@@ -51,7 +54,8 @@ export async function createUserSchema(knex: Knex) {
 
     return knex.schema.createTable(DB_TABLE_NAME.user, (table) => {
         table.increments('id').primary()
-        table.string('name').notNullable()
-        table.string('email').notNullable()
+        table.string('login').notNullable()
+        // TODO: add after fixing mailing
+        // table.string('email').notNullable()
     })
 }
