@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import { authService } from './auth.service'
-import { AuthServiceAbstract, IAuth, IUserLogin } from './auth.type'
+import { AuthServiceAbstract } from './auth.type'
 import { CLIENT_URL } from 'config/env'
 import { handleControllerError } from 'shared/error'
 
@@ -31,6 +31,8 @@ class AuthController {
             })
             res.json(userData)
         } catch (e) {
+            res.clearCookie('refreshToken', { httpOnly: true })
+
             handleControllerError({ res, e })
         }
     }
@@ -47,19 +49,25 @@ class AuthController {
             })
             res.json(userData)
         } catch (e) {
+            res.clearCookie('refreshToken', { httpOnly: true })
+
             handleControllerError({ res, e })
         }
     }
 
     async logout(req: Request, res: Response) {
         try {
-            // const result = await this.service.logout(mockAuth.userId)
-            // res.send(result)
+            const { userId } = req.body
+
+            await this.service.logout(userId)
+            res.clearCookie('refreshToken', { httpOnly: true })
+            res.status(200).end()
         } catch (e) {
             handleControllerError({ res, e })
         }
     }
 
+    // TODO: add with mailing
     async activate(req: Request, res: Response) {
         try {
             const { link } = req.params
@@ -71,6 +79,7 @@ class AuthController {
         }
     }
 
+    // TODO: add with token logic
     async refresh(req: Request, res: Response) {
         try {
             // const result = await this.service.refresh(mockAuth.userId)

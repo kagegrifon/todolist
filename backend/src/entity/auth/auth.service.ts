@@ -86,7 +86,12 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
     }
 
     async logout(userId: IAuth['userId']) {
-        console.log({ userId })
+        const token = await this.tokenService.getByUserId(userId)
+
+        if (token) {
+            this.tokenService.delete(token.id)
+        }
+
         return undefined
     }
 
