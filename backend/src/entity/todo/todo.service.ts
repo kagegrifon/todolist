@@ -12,7 +12,6 @@ class TodoService extends TypicalCRUDService<ITodo> {
     async create(newTodo: Omit<ITodo, 'id'>) {
         const { name } = newTodo
         const isDone = newTodo.isDone || false
-
         const result = await this.model.create({ name, isDone })
 
         return result
