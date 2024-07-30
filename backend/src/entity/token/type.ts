@@ -18,8 +18,9 @@ export interface IGeneratedTokens {
 export interface TokenServiceAbstract extends TypicalCRUDServiceAbstract<IToken> {
     generateTokens(payload: IUser): IGeneratedTokens
     saveToken(userId: IUser['id'], refreshToken: RefreshToken): Promise<IToken>
+    getByUserId(userId: IUser['id']): Promise<IToken | undefined>
 }
 
 export interface TokenModelAbstract extends TypicalCRUDModelAbstract<IToken> {
-    getByUserId(userId: IUser['id']): Promise<IToken[]>
+    getByUserId(userId: IUser['id']): Promise<IToken | undefined>
 }

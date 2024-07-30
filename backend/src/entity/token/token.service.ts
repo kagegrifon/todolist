@@ -20,7 +20,7 @@ class TokenService extends TypicalCRUDService<IToken> implements TokenServiceAbs
     }
 
     async saveToken(userId: IUser['id'], refreshToken: string) {
-        const curRecord = (await this.model.getByUserId(userId))[0]
+        const curRecord = await this.model.getByUserId(userId)
 
         if (curRecord) {
             curRecord.refreshToken = refreshToken
@@ -31,6 +31,12 @@ class TokenService extends TypicalCRUDService<IToken> implements TokenServiceAbs
 
         const newRecord = await this.model.create({ refreshToken, userId })
         return newRecord
+    }
+
+    async getByUserId(userId: IUser['id']) {
+        const curRecord = await this.model.getByUserId(userId)
+
+        return curRecord
     }
 }
 
