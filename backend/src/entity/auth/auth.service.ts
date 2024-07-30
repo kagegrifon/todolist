@@ -5,7 +5,10 @@ import { authModel } from './auth.model'
 import { AuthModelAbstract, AuthServiceAbstract, IAuth, IUserLogin, IUserSignUp } from './auth.type'
 import { UserModelAbstract } from 'entity/user/type'
 import { userService } from 'entity/user/user.service'
-import { API_URL, HASH_SALT } from 'config/env'
+import {
+    // API_URL,
+    HASH_SALT,
+} from 'config/env'
 import { MailServiceAbstract } from 'entity/mail/mail.type'
 import { mailService } from 'entity/mail/mail.service'
 import { TokenServiceAbstract } from 'entity/token/type'
@@ -21,29 +24,30 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         super(model)
     }
 
-    async registrate({ email, password, name }: IUserSignUp) {
-        const isEmailExist = (await this.userService.findByEmail(email))[0]
+    async register({ password, login }: IUserSignUp) {
+        // const isEmailExist = (await this.userService.findByEmail(email))[0]
 
-        if (isEmailExist) {
-            throw Error(`The email ${email} is already exist`)
-        }
+        // if (isEmailExist) {
+        //     throw Error(`The email ${email} is already exist`)
+        // }
 
-        const newUser = await this.userService.create({ email, name })
+        const newUser = await this.userService.create({ login })
 
         const passwordHash = await bcrypt.hash(password, HASH_SALT)
         const activationLink = uuidv4()
 
         await this.model.create({
-            isActivated: false,
+            // isActivated: false, - вернуть когда подключу сервис почты
+            isActivated: true,
             activationLink: activationLink,
             password: passwordHash,
             userId: newUser.id,
         })
 
-        await this.mailService.sendActivationMail({
-            to: email,
-            link: `${API_URL}/api/auth/activate/${activationLink}`,
-        })
+        // await this.mailService.sendActivationMail({
+        //     to: email,
+        //     link: `${API_URL}/api/auth/activate/${activationLink}`,
+        // })
 
         const token = this.tokenService.generateTokens(newUser)
         this.tokenService.saveToken(newUser.id, token.refreshToken)

@@ -6,8 +6,10 @@ const mapFromORMSchemaToDTO = (schemaItem: UserModelORM): IUser => {
 
     return {
         id: item.id,
-        name: item.name,
-        email: item.email,
+        login: item.login,
+
+        // TODO: add after fixing mailing
+        // email: item.email,
     }
 }
 
@@ -44,11 +46,12 @@ class UserModel implements UserModelAbstract {
         return mapFromORMSchemaToDTO(deleted)
     }
 
-    async findByEmail(email: IUser['email']) {
-        const foundEmail = await UserModelORM.query().select('email').where('email', '=', email)
+    // TODO: add after fixing mailing
+    // async findByEmail(email: IUser['email']) {
+    //     const foundEmail = await UserModelORM.query().select('email').where('email', '=', email)
 
-        return foundEmail.map(mapFromORMSchemaToDTO)
-    }
+    //     return foundEmail.map(mapFromORMSchemaToDTO)
+    // }
 }
 
 export const userModel = new UserModel()

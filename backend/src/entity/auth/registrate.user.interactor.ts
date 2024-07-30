@@ -27,28 +27,28 @@ interface SaveAuthInfoInputPort {
     saveUser: (userId: IUser['id'], password: string) => Promise<IAuth>
 }
 
-export class RegistrateUserInteractor {
-    constructor(
-        private findByEmailInputPort: FindByEmailInputPort,
-        private saveUserInputPort: SaveUserInputPort,
-        private saveAuthInfoInputPort: SaveAuthInfoInputPort,
-    ) {}
+// export class RegistrateUserInteractor {
+//     constructor(
+//         private findByEmailInputPort: FindByEmailInputPort,
+//         private saveUserInputPort: SaveUserInputPort,
+//         private saveAuthInfoInputPort: SaveAuthInfoInputPort,
+//     ) {}
 
-    async execute({ email, password, name }: IUserSignUp) {
-        const foundEmail = await this.findByEmailInputPort.findByEmail(email)
+//     async execute({ email, password, login: name }: IUserSignUp) {
+//         const foundEmail = await this.findByEmailInputPort.findByEmail(email)
 
-        if (foundEmail) {
-            throw Error('Email is already exist')
-        }
+//         if (foundEmail) {
+//             throw Error('Email is already exist')
+//         }
 
-        const user = await this.saveUserInputPort.saveUser({ email, name })
+//         const user = await this.saveUserInputPort.saveUser({ email, name })
 
-        await this.saveAuthInfoInputPort.saveUser(user.id, password)
-        return user
-    }
-}
+//         await this.saveAuthInfoInputPort.saveUser(user.id, password)
+//         return user
+//     }
+// }
 
-// async registrate({ email, password, name }: IUserSignUp) {
+// async register({ email, password, name }: IUserSignUp) {
 //     const isEmailExist = (await this.userService.findByEmail(email))[0]
 
 //     if (isEmailExist) {

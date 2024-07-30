@@ -3,8 +3,10 @@ import { authService } from './auth.service'
 import { AuthServiceAbstract, IAuth, IUserLogin } from './auth.type'
 import { CLIENT_URL } from 'config/env'
 
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000
+
 const mockLogin: IUserLogin = {
-    email: 'mock@email.com',
+    login: 'mock@email.com',
     password: '1234',
 }
 
@@ -22,22 +24,22 @@ class AuthController {
     constructor(service: AuthServiceAbstract) {
         this.service = service
 
-        this.registrate = this.registrate.bind(this)
+        this.register = this.register.bind(this)
         this.login = this.login.bind(this)
         this.logout = this.logout.bind(this)
         this.activate = this.activate.bind(this)
         this.refresh = this.refresh.bind(this)
     }
 
-    async registrate(req: Request, res: Response) {
+    async register(req: Request, res: Response) {
         try {
-            const { email, password, name } = req.body
+            const { password, login } = req.body
 
-            const userData = await this.service.registrate({ email, password, name })
+            const userData = await this.service.register({ password, login })
 
             res.cookie('refreshToken', userData.refreshToken, {
                 httpOnly: true,
-                maxAge: 30 * 24 * 60 * 60 * 1000,
+                maxAge: 30 * ONE_DAY_IN_MS,
             })
             res.json(userData)
         } catch (e) {
