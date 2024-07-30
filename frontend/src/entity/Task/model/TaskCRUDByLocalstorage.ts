@@ -15,23 +15,23 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
         }
     }
 
-    public add(newTask: ITask) {
+    public async add(newTask: ITask) {
         this._list.push(newTask)
 
         this.saveToLocalStorage()
 
-        return Promise.resolve(newTask)
+        return newTask
     }
 
-    public getAll() {
-        return Promise.resolve(this._list)
+    public async getAll() {
+        return this._list
     }
 
-    public getById(id: ITask['id']) {
-        return Promise.resolve(this._list.find((t) => t.id === id))
+    public async getById(id: ITask['id']) {
+        return this._list.find((t) => t.id === id)
     }
 
-    public update(id: ITask['id'], modifiedTask: Partial<ITask>) {
+    public async update(id: ITask['id'], modifiedTask: Partial<ITask>) {
         const modifiedTaskIndex = this._list.findIndex((t) => t.id === id)
 
         if (modifiedTaskIndex === -1) {
@@ -52,10 +52,10 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
 
         this.saveToLocalStorage()
 
-        return Promise.resolve(newTask)
+        return newTask
     }
 
-    public delete(id: ITask['id']) {
+    public async delete(id: ITask['id']) {
         const deleteTaskIndex = this._list.findIndex((t) => t.id === id)
 
         if (deleteTaskIndex === -1) {
@@ -66,7 +66,7 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
 
         this.saveToLocalStorage()
 
-        return Promise.resolve(deletedTask[0])
+        return deletedTask[0]
     }
 
     private saveToLocalStorage() {
