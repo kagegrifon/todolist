@@ -24,7 +24,7 @@ export interface IUserLogin {
 
 export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
     register(data: IUserSignUp): Promise<IUser & IGeneratedTokens>
-    login(data: IUserLogin): Promise<undefined>
+    login(data: IUserLogin): Promise<IUser & IGeneratedTokens>
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink']): Promise<void>
     // TODO exclude from separate entity
@@ -33,4 +33,5 @@ export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
 
 export interface AuthModelAbstract extends TypicalCRUDModelAbstract<IAuth> {
     findByActivationLink(link: IAuth['activationLink']): Promise<IAuth[]>
+    findByUserId(userId: IAuth['userId']): Promise<IAuth | undefined>
 }

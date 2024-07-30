@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import { TodoServiceAbstract } from './type'
 import { todoService } from './todo.service'
+import { handleControllerError } from 'shared/error'
 
 class TodoController {
     service: TodoServiceAbstract
@@ -23,7 +24,7 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            res.status(500).send(e)
+            handleControllerError({ res, e })
         }
     }
 
@@ -34,7 +35,7 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            res.status(500).send(e)
+            handleControllerError({ res, e })
         }
     }
 
@@ -44,7 +45,7 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            res.status(500).send(e)
+            handleControllerError({ res, e })
         }
     }
 
@@ -57,7 +58,7 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            res.status(500).send(e)
+            handleControllerError({ res, e })
         }
     }
 
@@ -68,7 +69,7 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            res.status(500).send(e)
+            handleControllerError({ res, e })
         }
     }
 }

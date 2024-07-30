@@ -46,9 +46,7 @@ class TokenModel implements TokenModelAbstract {
     }
 
     async getByUserId(userId: IUser['id']) {
-        const queryResult = await TokenModelORM.query()
-            .select('userId')
-            .where('userId', '=', userId)
+        const queryResult = await TokenModelORM.query().where('userId', '=', userId)
 
         return queryResult.map(mapFromORMSchemaToDTO)
     }

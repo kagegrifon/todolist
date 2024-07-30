@@ -9,6 +9,10 @@ class UserService extends TypicalCRUDService<IUser> {
         super(model)
     }
 
+    findByLogin(login: IUser['login']) {
+        return this.model.findByLogin(login)
+    }
+
     // findByEmail(email: IUser['email']) {
     //     return this.model.findByEmail(email)
     // }

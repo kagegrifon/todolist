@@ -31,6 +31,12 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         //     throw Error(`The email ${email} is already exist`)
         // }
 
+        const isLoginExist = !!(await this.userService.findByLogin(login))
+
+        if (isLoginExist) {
+            throw Error(`The login ${login} is already exist`)
+        }
+
         const newUser = await this.userService.create({ login })
 
         const passwordHash = await bcrypt.hash(password, HASH_SALT)
@@ -58,9 +64,25 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         }
     }
 
-    async login(data: IUserLogin) {
-        console.log({ data })
-        return undefined
+    async login(enteringUser: IUserLogin) {
+        const existingUser = await this.userService.findByLogin(enteringUser.login)
+
+        if (!existingUser) {
+            throw Error(`Wrong login or password`)
+        }
+
+        const userAuth = await this.model.findByUserId(existingUser.id)
+
+        const isCorrectPassword = await bcrypt.compare(enteringUser.password, userAuth.password)
+
+        if (!isCorrectPassword) {
+            throw Error(`Wrong login or password`)
+        }
+
+        const token = this.tokenService.generateTokens(existingUser)
+        this.tokenService.saveToken(existingUser.id, token.refreshToken)
+
+        return { ...existingUser, ...token }
     }
 
     async logout(userId: IAuth['userId']) {
