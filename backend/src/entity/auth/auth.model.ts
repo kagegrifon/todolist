@@ -51,6 +51,12 @@ class AuthModel implements AuthModelAbstract {
 
         return queryResult.map(mapFromORMSchemaToDTO)
     }
+
+    async findByUserId(userId: IAuth['userId']) {
+        const authUser = await AuthModelORM.query().findOne({ userId })
+
+        return authUser ? mapFromORMSchemaToDTO(authUser) : undefined
+    }
 }
 
 export const authModel = new AuthModel()

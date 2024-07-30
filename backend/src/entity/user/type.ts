@@ -7,8 +7,10 @@ export interface IUser {
     // email: string
 }
 
-export interface UserModelAbstract extends TypicalCRUDModelAbstract<IUser>             
+export interface UserModelAbstract extends TypicalCRUDModelAbstract<IUser> {
+    findByLogin(login: IUser['login']): Promise<IUser | undefined>
+}
 // TODO: add after fixing mailing
 //{
-    // findByEmail(email: IUser['email']): Promise<IUser[]>
+// findByEmail(email: IUser['email']): Promise<IUser[]>
 // }

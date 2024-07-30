@@ -3,6 +3,7 @@ import { DB_TABLE_NAME } from 'data-access/tableNames'
 import { ToDoModelORM } from 'entity/todo/todo.schema'
 import type { Knex } from 'knex'
 import { TokenModelORM } from 'entity/token/token.schema'
+import { AuthModelORM } from 'entity/auth/auth.schema'
 
 export class UserModelORM extends Model {
     static get tableName() {
@@ -25,6 +26,14 @@ export class UserModelORM extends Model {
                 join: {
                     from: `${DB_TABLE_NAME.user}.id`,
                     to: `${DB_TABLE_NAME.token}.userId`,
+                },
+            },
+            auth: {
+                relation: Model.HasOneRelation,
+                modelClass: AuthModelORM,
+                join: {
+                    from: `${DB_TABLE_NAME.user}.id`,
+                    to: `${DB_TABLE_NAME.auth}.userId`,
                 },
             },
         }

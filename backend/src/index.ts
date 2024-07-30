@@ -22,7 +22,7 @@ function start() {
             return console.log(`Express is listening at http://localhost:${PORT}`)
         })
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 
