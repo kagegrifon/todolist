@@ -1,7 +1,7 @@
 import { ITask, ITaskCRUDModelAbstact } from '../type'
 import { API } from 'shared/api'
 
-export const taskUrl = '/'
+export const taskUrl = '/todo'
 
 export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
     public async add(newTask: ITask) {
@@ -37,7 +37,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
     public async getById(id: ITask['id']) {
         try {
             const request = await API.request<ITask>({
-                url: `${taskUrl}${id}`,
+                url: `${taskUrl}/${id}`,
                 method: 'get',
             })
 
@@ -51,7 +51,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
     public async update(id: ITask['id'], modifiedTask: Partial<ITask>) {
         try {
             const request = await API.request<ITask>({
-                url: `${taskUrl}${id}`,
+                url: `${taskUrl}/${id}`,
                 method: 'put',
                 data: modifiedTask,
             })
@@ -66,7 +66,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
     public async delete(id: ITask['id']) {
         try {
             const request = await API.request<ITask>({
-                url: `${taskUrl}${id}`,
+                url: `${taskUrl}/${id}`,
                 method: 'delete',
             })
 

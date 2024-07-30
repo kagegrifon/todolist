@@ -2,7 +2,7 @@ import { ITask, ITaskCRUDModelAbstact } from '../type'
 
 const TASK_LISK_LOCAL_STORAGE_KEY = 'TASK_LISK_LOCAL_STORAGE_KEY'
 
-export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact  {
+export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
     private _list: ITask[]
 
     constructor() {
@@ -28,11 +28,11 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact  {
     }
 
     public getById(id: ITask['id']) {
-        return Promise.resolve(this._list.find(t => t.id === id))
+        return Promise.resolve(this._list.find((t) => t.id === id))
     }
 
     public update(id: ITask['id'], modifiedTask: Partial<ITask>) {
-        const modifiedTaskIndex = this._list.findIndex(t => t.id === id)
+        const modifiedTaskIndex = this._list.findIndex((t) => t.id === id)
 
         if (modifiedTaskIndex === -1) {
             throw Error(`no such task in task lisk with id, ${id}`)
@@ -56,7 +56,7 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact  {
     }
 
     public delete(id: ITask['id']) {
-        const deleteTaskIndex = this._list.findIndex(t => t.id === id)
+        const deleteTaskIndex = this._list.findIndex((t) => t.id === id)
 
         if (deleteTaskIndex === -1) {
             throw Error(`no such task in task lisk with id, ${id}`)
@@ -72,4 +72,4 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact  {
     private saveToLocalStorage() {
         window.localStorage.setItem(TASK_LISK_LOCAL_STORAGE_KEY, JSON.stringify(this._list))
     }
-} 
+}
