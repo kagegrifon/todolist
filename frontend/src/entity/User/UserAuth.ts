@@ -3,7 +3,7 @@ import { IUser, IUserAuthAbstract, IUserLogin } from './type'
 
 export const authUrl = '/auth'
 
-export class IUserAuth implements IUserAuthAbstract {
+export class UserAuth implements IUserAuthAbstract {
     public async register(newUser: IUserLogin) {
         try {
             const request = await API.request<IUser>({
