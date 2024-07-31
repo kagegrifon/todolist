@@ -36,7 +36,7 @@ export let LoginForm: React.FC = () => {
                 required
                 fullWidth
                 id='login'
-                label='Login'
+                label='Logi'
                 name='login'
                 autoFocus
                 value={login}
