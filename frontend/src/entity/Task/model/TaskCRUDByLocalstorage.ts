@@ -2,7 +2,7 @@ import { ITask, ITaskCRUDModelAbstact } from '../type'
 
 const TASK_LISK_LOCAL_STORAGE_KEY = 'TASK_LISK_LOCAL_STORAGE_KEY'
 
-export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
+export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact  {
     private _list: ITask[]
 
     constructor() {
@@ -15,24 +15,24 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
         }
     }
 
-    public async add(newTask: ITask) {
+    public add(newTask: ITask) {
         this._list.push(newTask)
 
         this.saveToLocalStorage()
 
-        return newTask
+        return Promise.resolve(newTask)
     }
 
-    public async getAll() {
-        return this._list
+    public getAll() {
+        return Promise.resolve(this._list)
     }
 
-    public async getById(id: ITask['id']) {
-        return this._list.find((t) => t.id === id)
+    public getById(id: ITask['id']) {
+        return Promise.resolve(this._list.find(t => t.id === id))
     }
 
-    public async update(id: ITask['id'], modifiedTask: Partial<ITask>) {
-        const modifiedTaskIndex = this._list.findIndex((t) => t.id === id)
+    public update(id: ITask['id'], modifiedTask: Partial<ITask>) {
+        const modifiedTaskIndex = this._list.findIndex(t => t.id === id)
 
         if (modifiedTaskIndex === -1) {
             throw Error(`no such task in task lisk with id, ${id}`)
@@ -52,11 +52,11 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
 
         this.saveToLocalStorage()
 
-        return newTask
+        return Promise.resolve(newTask)
     }
 
-    public async delete(id: ITask['id']) {
-        const deleteTaskIndex = this._list.findIndex((t) => t.id === id)
+    public delete(id: ITask['id']) {
+        const deleteTaskIndex = this._list.findIndex(t => t.id === id)
 
         if (deleteTaskIndex === -1) {
             throw Error(`no such task in task lisk with id, ${id}`)
@@ -66,10 +66,10 @@ export class TaskCRUDByLocalStorage implements ITaskCRUDModelAbstact {
 
         this.saveToLocalStorage()
 
-        return deletedTask[0]
+        return Promise.resolve(deletedTask[0])
     }
 
     private saveToLocalStorage() {
         window.localStorage.setItem(TASK_LISK_LOCAL_STORAGE_KEY, JSON.stringify(this._list))
     }
-}
+} 

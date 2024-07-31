@@ -1,9 +1,12 @@
-import { TypicalCRUDModelAbstract, TypicalCRUDServiceAbstract, WithId } from './type'
+import { todoModel } from './todo.model'
+import { TodoServiceAbstract, ITodo, TodoModelAbstract } from './type'
 
-export class TypicalCRUDService<Entity extends WithId>
-    implements TypicalCRUDServiceAbstract<Entity>
-{
-    constructor(public model: TypicalCRUDModelAbstract<Entity>) {
+class TodoService implements TodoServiceAbstract {
+    model: TodoModelAbstract
+
+    constructor(model: TodoModelAbstract) {
+        this.model = model
+
         this.create = this.create.bind(this)
         this.getById = this.getById.bind(this)
         this.getAll = this.getAll.bind(this)
@@ -11,8 +14,11 @@ export class TypicalCRUDService<Entity extends WithId>
         this.delete = this.delete.bind(this)
     }
 
-    async create(newTodo: Omit<Entity, 'id'>) {
-        const result = await this.model.create(newTodo)
+    async create(newTodo: Omit<ITodo, 'id'>) {
+        const { name } = newTodo
+        const isDone = newTodo.isDone || false
+
+        const result = await this.model.create({ name, isDone})
 
         return result
     }
@@ -29,7 +35,7 @@ export class TypicalCRUDService<Entity extends WithId>
         return result
     }
 
-    async update(id: string, updatingTodo: Partial<Entity>) {
+    async update(id: string, updatingTodo: Partial<ITodo>) {
         const result = await this.model.update(id, updatingTodo)
 
         return result
@@ -41,3 +47,5 @@ export class TypicalCRUDService<Entity extends WithId>
         return result
     }
 }
+
+export const todoService = new TodoService(todoModel)
