@@ -1,18 +1,29 @@
-import express from "express";
+import express from 'express'
 import cors from 'cors'
-import { todoRouter } from "./todo";
-import { dbSetup } from "data-access/dbSetup";
+import cookieParser from 'cookie-parser'
+import { todoRouter } from './entity/todo'
+import { dbSetup } from 'data-access/dbSetup'
+import { PORT } from 'config/env'
+import { authRouter } from 'entity/auth'
 
-const app = express();
-const port = 3000;
-
-dbSetup()
+const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(cookieParser())
 
-app.use('/api', todoRouter)
+app.use('/api/todo', todoRouter)
+app.use('/api/auth', authRouter)
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
+function start() {
+    try {
+        dbSetup()
+        app.listen(PORT, () => {
+            return console.log(`Express is listening at http://localhost:${PORT}`)
+        })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+start()

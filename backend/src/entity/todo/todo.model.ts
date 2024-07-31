@@ -1,8 +1,8 @@
 import { TodoModelAbstract, ITodo } from './type'
 import { ToDoModelORM } from './todo.schema'
 
-const mapFromTodoSchema = (todoSchemaItem: ToDoModelORM): ITodo => {
-    const todoItem = todoSchemaItem.toJSON() as ITodo
+const mapFromORMSchemaToDTO = (schemaItem: ToDoModelORM): ITodo => {
+    const todoItem = schemaItem.toJSON() as ITodo
 
     return {
         id: todoItem.id,
@@ -19,33 +19,33 @@ class TodoModel implements TodoModelAbstract {
             isDone,
         })
 
-        return mapFromTodoSchema(queryResult)
+        return mapFromORMSchemaToDTO(queryResult)
     }
 
     async getById(id: string) {
         const queryResult = await ToDoModelORM.query().findById(id)
 
-        return mapFromTodoSchema(queryResult)
+        return mapFromORMSchemaToDTO(queryResult)
     }
 
     async getAll() {
         const queryResult = await ToDoModelORM.query()
 
-        return queryResult.map(mapFromTodoSchema)
+        return queryResult.map(mapFromORMSchemaToDTO)
     }
 
     async update(id: string, updatingTodo: Partial<ITodo>) {
         await ToDoModelORM.query().findById(id).patch(updatingTodo)
         const updatedTodo = await ToDoModelORM.query().findById(id)
 
-        return mapFromTodoSchema(updatedTodo)
+        return mapFromORMSchemaToDTO(updatedTodo)
     }
 
     async delete(id: string) {
         const deletedTodo = await ToDoModelORM.query().findById(id)
         await ToDoModelORM.query().deleteById(id)
 
-        return mapFromTodoSchema(deletedTodo)
+        return mapFromORMSchemaToDTO(deletedTodo)
     }
 }
 
