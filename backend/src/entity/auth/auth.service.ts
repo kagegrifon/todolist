@@ -60,8 +60,8 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         this.tokenService.saveToken(newUser.id, token.refreshToken)
 
         return {
-            ...newUser,
-            ...token,
+            user: newUser,
+            token,
         }
     }
 
@@ -83,7 +83,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const token = this.tokenService.generateTokens(existingUser)
         this.tokenService.saveToken(existingUser.id, token.refreshToken)
 
-        return { ...existingUser, ...token }
+        return { user: existingUser, token }
     }
 
     async logout(userId: IAuth['userId']) {

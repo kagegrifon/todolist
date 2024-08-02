@@ -23,8 +23,8 @@ export interface IUserLogin {
 }
 
 export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
-    register(data: IUserSignUp): Promise<IUser & IGeneratedTokens>
-    login(data: IUserLogin): Promise<IUser & IGeneratedTokens>
+    register(data: IUserSignUp): Promise<{ user: IUser; token: IGeneratedTokens }>
+    login(data: IUserLogin): Promise<{ user: IUser; token: IGeneratedTokens }>
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink']): Promise<void>
     // TODO exclude from separate entity

@@ -63,7 +63,7 @@ export async function createUserSchema(knex: Knex) {
 
     return knex.schema.createTable(DB_TABLE_NAME.user, (table) => {
         table.increments('id').primary()
-        table.string('login').notNullable()
+        table.string('login').notNullable().unique()
         // TODO: add after fixing mailing
         // table.string('email').notNullable()
     })

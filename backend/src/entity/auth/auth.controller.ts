@@ -24,7 +24,7 @@ class AuthController {
 
             const userData = await this.service.register({ password, login })
 
-            res.cookie('refreshToken', userData.refreshToken, {
+            res.cookie('refreshToken', userData.token.refreshToken, {
                 httpOnly: true,
                 maxAge: 30 * ONE_DAY_IN_MS,
             })
@@ -41,7 +41,7 @@ class AuthController {
 
             const userData = await this.service.login({ password, login })
 
-            res.cookie('refreshToken', userData.refreshToken, {
+            res.cookie('refreshToken', userData.token.refreshToken, {
                 httpOnly: true,
                 maxAge: 30 * ONE_DAY_IN_MS,
             })
