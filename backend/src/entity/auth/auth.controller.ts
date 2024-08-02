@@ -1,8 +1,7 @@
-import type { Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import { authService } from './auth.service'
 import { AuthServiceAbstract } from './auth.type'
 import { CLIENT_URL } from 'config/env'
-import { handleControllerError } from 'shared/error'
 
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000
 
@@ -19,7 +18,7 @@ class AuthController {
         this.refresh = this.refresh.bind(this)
     }
 
-    async register(req: Request, res: Response) {
+    async register(req: Request, res: Response, next: NextFunction) {
         try {
             const { password, login } = req.body
 
@@ -32,12 +31,11 @@ class AuthController {
             res.json(userData)
         } catch (e) {
             res.clearCookie('refreshToken', { httpOnly: true })
-
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async login(req: Request, res: Response) {
+    async login(req: Request, res: Response, next: NextFunction) {
         try {
             const { password, login } = req.body
 
@@ -50,12 +48,11 @@ class AuthController {
             res.json(userData)
         } catch (e) {
             res.clearCookie('refreshToken', { httpOnly: true })
-
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async logout(req: Request, res: Response) {
+    async logout(req: Request, res: Response, next: NextFunction) {
         try {
             const { userId } = req.body
 
@@ -63,29 +60,29 @@ class AuthController {
             res.clearCookie('refreshToken', { httpOnly: true })
             res.status(200).end()
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
     // TODO: add with mailing
-    async activate(req: Request, res: Response) {
+    async activate(req: Request, res: Response, next: NextFunction) {
         try {
             const { link } = req.params
             await this.service.activate(link)
 
             res.redirect(CLIENT_URL)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
     // TODO: add with token logic
-    async refresh(req: Request, res: Response) {
+    async refresh(req: Request, res: Response, next: NextFunction) {
         try {
             // const result = await this.service.refresh(mockAuth.userId)
             // res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 }

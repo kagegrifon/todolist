@@ -5,6 +5,7 @@ import { todoRouter } from './entity/todo'
 import { dbSetup } from 'data-access/dbSetup'
 import { PORT } from 'config/env'
 import { authRouter } from 'entity/auth'
+import { errorMiddleware } from './middleware/error-middleware'
 
 const app = express()
 
@@ -14,6 +15,7 @@ app.use(cookieParser())
 
 app.use('/api/todo', todoRouter)
 app.use('/api/auth', authRouter)
+app.use(errorMiddleware)
 
 function start() {
     try {

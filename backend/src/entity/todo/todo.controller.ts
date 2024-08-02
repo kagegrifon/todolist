@@ -1,7 +1,6 @@
-import type { Request, Response } from 'express'
+import type { Request, Response, NextFunction } from 'express'
 import { TodoServiceAbstract } from './type'
 import { todoService } from './todo.service'
-import { handleControllerError } from 'shared/error'
 
 class TodoController {
     service: TodoServiceAbstract
@@ -16,7 +15,7 @@ class TodoController {
         this.delete = this.delete.bind(this)
     }
 
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
             const todoDTO = req.body
 
@@ -24,32 +23,32 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async getById(req: Request, res: Response) {
+    async getById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
             const result = await this.service.getById(id)
 
             res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.service.getAll()
 
             res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
             const todoDTO = req.body
@@ -58,18 +57,18 @@ class TodoController {
 
             res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
             const result = await this.service.delete(id)
 
             res.send(result)
         } catch (e) {
-            handleControllerError({ res, e })
+            next(e)
         }
     }
 }

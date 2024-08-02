@@ -13,6 +13,7 @@ import { MailServiceAbstract } from 'entity/mail/mail.type'
 import { mailService } from 'entity/mail/mail.service'
 import { TokenServiceAbstract } from 'entity/token/type'
 import { tokenService } from 'entity/token/token.service'
+import { ApiError } from 'shared/exceptions'
 
 class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstract {
     constructor(
@@ -34,7 +35,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const isLoginExist = !!(await this.userService.findByLogin(login))
 
         if (isLoginExist) {
-            throw Error(`The login ${login} is already exist`)
+            throw ApiError.BadRequest({ message: `The login ${login} is already exist` })
         }
 
         const newUser = await this.userService.create({ login })
@@ -68,7 +69,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const existingUser = await this.userService.findByLogin(enteringUser.login)
 
         if (!existingUser) {
-            throw Error(`Wrong login or password`)
+            throw ApiError.BadRequest({ message: `Wrong login or password` })
         }
 
         const userAuth = await this.model.findByUserId(existingUser.id)
@@ -76,7 +77,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const isCorrectPassword = await bcrypt.compare(enteringUser.password, userAuth.password)
 
         if (!isCorrectPassword) {
-            throw Error(`Wrong login or password`)
+            throw ApiError.BadRequest({ message: `Wrong login or password` })
         }
 
         const token = this.tokenService.generateTokens(existingUser)
@@ -99,7 +100,7 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         const userAuth = (await this.model.findByActivationLink(link))[0]
 
         if (!userAuth) {
-            throw Error('no user for the activation link')
+            throw ApiError.BadRequest({ message: 'no user for the activation link' })
         }
 
         userAuth.isActivated = true
