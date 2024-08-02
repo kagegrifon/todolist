@@ -2,6 +2,8 @@ import type { NextFunction, Request, Response } from 'express'
 import { authService } from './auth.service'
 import { AuthServiceAbstract } from './auth.type'
 import { CLIENT_URL } from 'config/env'
+import { validationResult } from 'express-validator'
+import { ApiError } from 'shared/exceptions'
 
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000
 
@@ -20,6 +22,13 @@ class AuthController {
 
     async register(req: Request, res: Response, next: NextFunction) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(
+                    ApiError.BadRequest({ message: 'Validation error', error: errors.array() }),
+                )
+            }
+
             const { password, login } = req.body
 
             const userData = await this.service.register({ password, login })
@@ -37,8 +46,12 @@ class AuthController {
 
     async login(req: Request, res: Response, next: NextFunction) {
         try {
-            const { password, login } = req.body
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest({ message: 'Validation error', error: errors }))
+            }
 
+            const { password, login } = req.body
             const userData = await this.service.login({ password, login })
 
             res.cookie('refreshToken', userData.token.refreshToken, {
@@ -54,8 +67,13 @@ class AuthController {
 
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
-            const { userId } = req.body
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest({ message: 'Validation error', error: errors }))
+            }
 
+            const { userId } = req.body
+            console.log({ userId })
             await this.service.logout(userId)
             res.clearCookie('refreshToken', { httpOnly: true })
             res.status(200).end()
@@ -79,8 +97,20 @@ class AuthController {
     // TODO: add with token logic
     async refresh(req: Request, res: Response, next: NextFunction) {
         try {
-            // const result = await this.service.refresh(mockAuth.userId)
-            // res.send(result)
+            const { refreshToken } = req.cookies
+
+            if (!refreshToken) {
+                throw ApiError.UnauthorizedError()
+            }
+
+            const userData = await this.service.refresh(refreshToken)
+
+            res.cookie('refreshToken', userData.token.refreshToken, {
+                httpOnly: true,
+                maxAge: 30 * ONE_DAY_IN_MS,
+            })
+
+            res.json(userData)
         } catch (e) {
             next(e)
         }

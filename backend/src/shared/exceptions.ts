@@ -2,27 +2,27 @@ type StatusCode = number
 
 export class ApiError extends Error {
     status: StatusCode
-    errors: string[]
+    error: any
 
     constructor({
         status,
         message,
-        errors = [],
+        error = null,
     }: {
         status: StatusCode
         message: string
-        errors?: string[]
+        error?: any
     }) {
         super(message)
         this.status = status
-        this.errors = errors
+        this.error = error
     }
 
     static UnauthorizedError() {
         return new ApiError({ status: 401, message: 'User is not authorized' })
     }
 
-    static BadRequest({ message, errors }: { message: string; errors?: string[] }) {
-        return new ApiError({ status: 400, message, errors })
+    static BadRequest({ message, error }: { message: string; error?: any }) {
+        return new ApiError({ status: 400, message, error })
     }
 }
