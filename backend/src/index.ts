@@ -6,6 +6,7 @@ import { dbSetup } from 'data-access/dbSetup'
 import { PORT } from 'config/env'
 import { authRouter } from 'entity/auth'
 import { errorMiddleware } from './middleware/error-middleware'
+import { authMiddleware } from 'middleware/auth-middleware'
 
 const app = express()
 
@@ -13,8 +14,9 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/api/todo', todoRouter)
 app.use('/api/auth', authRouter)
+
+app.use('/api/todo', authMiddleware, todoRouter)
 app.use(errorMiddleware)
 
 function start() {
