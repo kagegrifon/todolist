@@ -19,8 +19,12 @@ export interface TokenServiceAbstract extends TypicalCRUDServiceAbstract<IToken>
     generateTokens(payload: IUser): IGeneratedTokens
     saveToken(userId: IUser['id'], refreshToken: RefreshToken): Promise<IToken>
     getByUserId(userId: IUser['id']): Promise<IToken | undefined>
+    getByToken(token: RefreshToken): Promise<IToken | undefined>
+    validateRefreshToken(refreshToken: RefreshToken): IUser | null
+    validateAccessToken(accessToken: AccessToken): IUser | null
 }
 
 export interface TokenModelAbstract extends TypicalCRUDModelAbstract<IToken> {
     getByUserId(userId: IUser['id']): Promise<IToken | undefined>
+    getByToken(token: RefreshToken): Promise<IToken | undefined>
 }

@@ -1,4 +1,4 @@
-import { TokenModelAbstract, IToken } from './type'
+import { TokenModelAbstract, IToken, RefreshToken } from './type'
 import { TokenModelORM } from './token.schema'
 import { IUser } from 'entity/user/type'
 
@@ -47,6 +47,12 @@ class TokenModel implements TokenModelAbstract {
 
     async getByUserId(userId: IUser['id']) {
         const queryResult = await TokenModelORM.query().findOne({ userId })
+
+        return queryResult ? mapFromORMSchemaToDTO(queryResult) : undefined
+    }
+
+    async getByToken(refreshToken: RefreshToken) {
+        const queryResult = await TokenModelORM.query().findOne({ refreshToken })
 
         return queryResult ? mapFromORMSchemaToDTO(queryResult) : undefined
     }

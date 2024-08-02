@@ -28,7 +28,9 @@ export interface AuthServiceAbstract extends TypicalCRUDServiceAbstract<IAuth> {
     logout(userId: IAuth['userId']): Promise<undefined>
     activate(link: IAuth['activationLink']): Promise<void>
     // TODO exclude from separate entity
-    refresh(userId: IAuth['userId']): Promise<undefined>
+    refresh(
+        refreshToken: IGeneratedTokens['refreshToken'],
+    ): Promise<{ user: IUser; token: IGeneratedTokens }>
 }
 
 export interface AuthModelAbstract extends TypicalCRUDModelAbstract<IAuth> {

@@ -11,7 +11,7 @@ import {
 } from 'config/env'
 import { MailServiceAbstract } from 'entity/mail/mail.type'
 import { mailService } from 'entity/mail/mail.service'
-import { TokenServiceAbstract } from 'entity/token/type'
+import { IGeneratedTokens, TokenServiceAbstract } from 'entity/token/type'
 import { tokenService } from 'entity/token/token.service'
 import { ApiError } from 'shared/exceptions'
 
@@ -107,8 +107,19 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
         await this.model.update(userAuth.id, userAuth)
     }
 
-    async refresh(userId: IAuth['userId']) {
-        console.log({ userId })
+    async refresh(refreshToken: IGeneratedTokens['refreshToken']) {
+        const userData = this.tokenService.validateRefreshToken(refreshToken)
+
+        const tokenFromDB = await this.tokenService.getByToken(refreshToken)
+
+        if (!userData || !tokenFromDB) {
+            throw ApiError.UnauthorizedError()
+        }
+
+        const existingUser = await this.userService.findByLogin(userData.login)
+        const token = this.tokenService.generateTokens(existingUser)
+        this.tokenService.saveToken(existingUser.id, token.refreshToken)
+
         return undefined
     }
 }
