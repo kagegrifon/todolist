@@ -7,6 +7,7 @@ import { PORT } from 'config/env'
 import { authRouter } from 'entity/auth'
 import { errorMiddleware } from './middleware/error-middleware'
 import { authMiddleware } from 'middleware/auth-middleware'
+import { userRouter } from 'entity/user/user.router'
 
 const app = express()
 
@@ -15,8 +16,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/api/auth', authRouter)
-
+app.use('/api/user', authMiddleware, userRouter)
 app.use('/api/todo', authMiddleware, todoRouter)
+
 app.use(errorMiddleware)
 
 function start() {

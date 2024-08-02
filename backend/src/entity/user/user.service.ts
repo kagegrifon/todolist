@@ -2,7 +2,7 @@ import { userModel } from './user.model'
 import { UserModelAbstract, IUser } from './type'
 import { TypicalCRUDService } from 'shared/service'
 
-class UserService extends TypicalCRUDService<IUser> {
+export class UserService extends TypicalCRUDService<IUser> {
     model: UserModelAbstract
 
     constructor(model: UserModelAbstract) {

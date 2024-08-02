@@ -25,4 +25,8 @@ export class ApiError extends Error {
     static BadRequest({ message, error }: { message: string; error?: any }) {
         return new ApiError({ status: 400, message, error })
     }
+
+    static NotFound({ message, error }: { message: string; error?: any }) {
+        return new ApiError({ status: 404, message, error })
+    }
 }
