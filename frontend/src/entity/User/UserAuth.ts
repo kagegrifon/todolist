@@ -14,7 +14,7 @@ export class UserAuth implements IUserAuthAbstract {
 
             return request.data
         } catch (e) {
-            alert('Something happen while adding new task, check internet connection')
+            // alert('Something happen while adding new task, check internet connection')
             console.log(e)
         }
     }
@@ -29,7 +29,7 @@ export class UserAuth implements IUserAuthAbstract {
 
             return request.data
         } catch (e) {
-            alert('Something happen while adding new task, check internet connection')
+            // alert('Something happen while adding new task, check internet connection')
             console.log(e)
         }
     }
@@ -42,7 +42,7 @@ export class UserAuth implements IUserAuthAbstract {
                 data: userId,
             })
         } catch (e) {
-            alert('Something happen while adding new task, check internet connection')
+            // alert('Something happen while adding new task, check internet connection')
             console.log(e)
         }
     }

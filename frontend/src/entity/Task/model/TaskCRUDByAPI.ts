@@ -14,7 +14,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
             return request.data
         } catch (e) {
-            alert('Something happen while adding new task, check internet connection')
+            // alert('Something happen while adding new task, check internet connection')
             console.log(e)
         }
     }
@@ -28,7 +28,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
             return request.data
         } catch (e) {
-            alert('Something happen while geting tasks, check internet connection')
+            // alert('Something happen while geting tasks, check internet connection')
             console.log(e)
             return []
         }
@@ -43,7 +43,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
             return request.data
         } catch (e) {
-            alert('Something happen while geting task, check internet connection')
+            // alert('Something happen while geting task, check internet connection')
             console.log(e)
         }
     }
@@ -58,7 +58,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
             return request.data
         } catch (e) {
-            alert('Something happen while updating task, check internet connection')
+            // alert('Something happen while updating task, check internet connection')
             console.log(e)
         }
     }
@@ -72,7 +72,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
             return request.data
         } catch (e) {
-            alert('Something happen while updating task, check internet connection')
+            // alert('Something happen while updating task, check internet connection')
             console.log(e)
         }
     }
