@@ -9,6 +9,6 @@ export const protectedAPI = axios.create({
 protectedAPI.interceptors.request.use((config) => {
     const token = userAuthStore.getToken()
     console.log({ token })
-    config.headers.Authorization = `Bearer ${token}}`
+    config.headers.Authorization = `Bearer ${token}`
     return config
 })
