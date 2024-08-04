@@ -1,10 +1,9 @@
 import { UserAuthAPI } from './UserAuth'
 import { IUserAuthAbstract, IUserLogin } from './type'
-import { UserAuthStore } from './AuthStore'
+import { userAuthStore } from './AuthStore'
 
 // todo make context
 const userAuthAPI = new UserAuthAPI()
-const userAuthStore = new UserAuthStore()
 
 export const useUserAuthAPI = (): IUserAuthAbstract => {
     const logout = userAuthAPI.logout.bind(userAuthAPI)

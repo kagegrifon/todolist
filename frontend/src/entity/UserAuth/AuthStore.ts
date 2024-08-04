@@ -12,7 +12,7 @@ function getFromLocalStorage(): string | null {
     return dataFromStorage
 }
 
-export class UserAuthStore {
+class UserAuthStore {
     public setToken(token: string) {
         window.localStorage.setItem(USER_AUTH_DATA_LOCAL_STORAGE_KEY, JSON.stringify(token))
     }
@@ -21,3 +21,5 @@ export class UserAuthStore {
         return getFromLocalStorage()
     }
 }
+
+export const userAuthStore = new UserAuthStore()

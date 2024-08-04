@@ -1,12 +1,12 @@
+import { protectedAPI } from 'entity/UserAuth/protectedApi'
 import { ITask, ITaskCRUDModelAbstact } from '../type'
-import { API } from 'shared/api'
 
 export const taskUrl = '/todo'
 
 export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
     public async add(newTask: ITask) {
         try {
-            const request = await API.request<ITask>({
+            const request = await protectedAPI.request<ITask>({
                 url: taskUrl,
                 method: 'post',
                 data: newTask,
@@ -21,7 +21,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
     public async getAll() {
         try {
-            const request = await API.request<ITask[]>({
+            const request = await protectedAPI.request<ITask[]>({
                 url: taskUrl,
                 method: 'get',
             })
@@ -36,7 +36,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
     public async getById(id: ITask['id']) {
         try {
-            const request = await API.request<ITask>({
+            const request = await protectedAPI.request<ITask>({
                 url: `${taskUrl}/${id}`,
                 method: 'get',
             })
@@ -50,7 +50,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
     public async update(id: ITask['id'], modifiedTask: Partial<ITask>) {
         try {
-            const request = await API.request<ITask>({
+            const request = await protectedAPI.request<ITask>({
                 url: `${taskUrl}/${id}`,
                 method: 'put',
                 data: modifiedTask,
@@ -65,7 +65,7 @@ export class TaskCRUDByAPI implements ITaskCRUDModelAbstact {
 
     public async delete(id: ITask['id']) {
         try {
-            const request = await API.request<ITask>({
+            const request = await protectedAPI.request<ITask>({
                 url: `${taskUrl}/${id}`,
                 method: 'delete',
             })

@@ -9,6 +9,9 @@ import { TextureBackground, TopBackground } from 'shared/component/Background'
 import { styled } from 'shared/globalDeps'
 import { LoginForm } from 'features/LoginForm'
 import { SignUpForm } from 'features/SignUpForm'
+import { ISuccessAuthDTO } from 'entity/UserAuth/type'
+import { useNavigate } from 'react-router-dom'
+import { AppContext } from 'store'
 
 const StyledPageContainer = styled(PageContainer)`
     display: flex;
@@ -28,18 +31,29 @@ const SmallButtonLink = styled(Button)`
 `
 
 export let LoginPage: React.FC = () => {
+    const navigate = useNavigate()
+    const appContext = React.useContext(AppContext)
     const [isLogin, setIsLogin] = React.useState(true)
 
     const switchLoginMode = React.useCallback(() => {
         setIsLogin((prev) => !prev)
     }, [])
 
+    const onSuccess = (userData: ISuccessAuthDTO) => {
+        appContext.user = { name: userData.user.login, id: userData.user.id }
+        navigate('/')
+    }
+
     return (
         <StyledPageContainer>
             <TextureBackground />
             <TopBackground />
             <Container component='main' maxWidth='xs'>
-                {isLogin ? <LoginForm /> : <SignUpForm />}
+                {isLogin ? (
+                    <LoginForm onSuccess={onSuccess} />
+                ) : (
+                    <SignUpForm onSuccess={onSuccess} />
+                )}
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <SmallButtonLink
                         variant='text'

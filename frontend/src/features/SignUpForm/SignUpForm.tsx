@@ -5,9 +5,11 @@ import Button from '@mui/material/Button'
 import { useUserAuthAPI } from '../../entity/UserAuth'
 import { IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+import { ISuccessAuthDTO } from 'entity/UserAuth/type'
 
-export let SignUpForm: React.FC = () => {
+type SignUpFormProps = { onSuccess: (userData: ISuccessAuthDTO) => void }
+
+export let SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
     const [login, setLogin] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [repeatPass, setRepeatPass] = React.useState('')
@@ -15,7 +17,6 @@ export let SignUpForm: React.FC = () => {
     const [showRepeatPass, setShowRepeatPass] = React.useState(false)
 
     const userAuthAPI = useUserAuthAPI()
-    const navigate = useNavigate()
 
     return (
         <Box
@@ -24,8 +25,8 @@ export let SignUpForm: React.FC = () => {
                 e.preventDefault()
 
                 try {
-                    await userAuthAPI.register({ login, password })
-                    navigate('/')
+                    const userData = await userAuthAPI.register({ login, password })
+                    onSuccess(userData)
                 } catch (e) {
                     console.error(e)
                 }

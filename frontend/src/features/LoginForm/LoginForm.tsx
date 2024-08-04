@@ -5,15 +5,15 @@ import Button from '@mui/material/Button'
 import { useUserAuthAPI } from 'entity/UserAuth'
 import { IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+import { ISuccessAuthDTO } from 'entity/UserAuth/type'
 
-export let LoginForm: React.FC = () => {
+type LoginFormProps = { onSuccess: (userData: ISuccessAuthDTO) => void }
+
+export let LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     const [login, setLogin] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [showPassword, setShowPassword] = React.useState(false)
-
     const userAuthAPI = useUserAuthAPI()
-    const navigate = useNavigate()
 
     return (
         <Box
@@ -22,8 +22,8 @@ export let LoginForm: React.FC = () => {
                 e.preventDefault()
 
                 try {
-                    await userAuthAPI.login({ login, password })
-                    navigate('/')
+                    const userData = await userAuthAPI.login({ login, password })
+                    onSuccess(userData)
                 } catch (e) {
                     console.error(e)
                 }
@@ -36,7 +36,7 @@ export let LoginForm: React.FC = () => {
                 required
                 fullWidth
                 id='login'
-                label='Logi'
+                label='Login'
                 name='login'
                 autoFocus
                 value={login}
