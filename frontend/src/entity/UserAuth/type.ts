@@ -4,7 +4,7 @@ export type IUserLogin = {
 }
 
 export type IUser = {
-    id: string
+    id: number
     login: string
 }
 

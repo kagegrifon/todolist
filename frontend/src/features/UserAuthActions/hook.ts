@@ -10,15 +10,14 @@ export const useUserAuthAPI = (): IUserAuthAbstract => {
 
     const logout = async (userId: IUser['id']) => {
         await userAuthAPI.logout(userId)
+        appContext.setUser(undefined)
         userAuthStore.setToken('')
-
-        appContext.user = undefined
     }
 
     const register = async (newUser: IUserLogin) => {
         const userData = await userAuthAPI.register(newUser)
         userAuthStore.setToken(userData.token.accessToken)
-        appContext.user = { name: userData.user.login, id: userData.user.id }
+        appContext.setUser(userData.user)
 
         return userData
     }
@@ -26,7 +25,7 @@ export const useUserAuthAPI = (): IUserAuthAbstract => {
     const login = async (newUser: IUserLogin) => {
         const userData = await userAuthAPI.login(newUser)
         userAuthStore.setToken(userData.token.accessToken)
-        appContext.user = { name: userData.user.login, id: userData.user.id }
+        appContext.setUser(userData.user)
 
         return userData
     }

@@ -18,7 +18,7 @@ authRouter.post(
     authController.login,
 )
 
-authRouter.post('/logout', body('userId').isString(), authController.logout)
+authRouter.post('/logout', body('userId'), authController.logout)
 
 authRouter.get('/activate/:link', authController.activate)
 

@@ -73,7 +73,6 @@ class AuthController {
             }
 
             const { userId } = req.body
-            console.log({ userId })
             await this.service.logout(userId)
             res.clearCookie('refreshToken', { httpOnly: true })
             res.status(200).end()

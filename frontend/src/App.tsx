@@ -6,13 +6,14 @@ import { jwtDecode } from 'jwt-decode'
 import { router } from 'Router'
 
 import './globalStyles/App.scss'
-import { AppContext, defaultAppContextValue } from 'store'
+import { AppContext } from 'store'
 import { useUserAPI } from 'entity/User'
 import { userAuthStore } from 'entity/UserAuth/AuthStore'
+import { IUser } from 'entity/User/type'
 
 export const App: React.FC = () => {
     const [appLoading, setAppLoading] = React.useState(false)
-    const appContext = React.useContext(AppContext)
+    const [user, setUser] = React.useState<IUser | undefined>()
     const userAPI = useUserAPI()
 
     const loadUser = async () => {
@@ -26,8 +27,8 @@ export const App: React.FC = () => {
         if (userData && 'id' in userData) {
             try {
                 setAppLoading(true)
-                const user = await userAPI.getById(String(userData['id']))
-                appContext.user = { name: user.login, id: user.id }
+                const user = await userAPI.getById(Number(userData.id))
+                setUser(user)
             } finally {
                 setAppLoading(false)
             }
@@ -44,7 +45,7 @@ export const App: React.FC = () => {
     }
 
     return (
-        <AppContext.Provider value={defaultAppContextValue}>
+        <AppContext.Provider value={{ user, setUser }}>
             <ThemeProvider theme={theme}>
                 <RouterProvider router={router} />
             </ThemeProvider>

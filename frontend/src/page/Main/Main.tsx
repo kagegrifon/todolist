@@ -22,12 +22,14 @@ export const GreetingHeading = styled.h2`
     font-size: 28px;
 `
 
-export let MainPage: React.FC = () => {
+export const MainPage: React.FC = () => {
     const { user } = React.useContext(AppContext)
     const userAuthAPI = useUserAuthAPI()
 
-    const onLogout = () => userAuthAPI.logout(user.id)
-
+    const onLogout = () => {
+        userAuthAPI.logout(user.id)
+    }
+    console.log('MainPage', { user })
     if (!user) {
         return <Navigate to={'/login'} replace />
     }
@@ -37,12 +39,12 @@ export let MainPage: React.FC = () => {
             <TextureBackground />
             <TopBackground />
             <TopBlock>
-                <ProfileAvatar onLogout={onLogout} userName={{ firstName: user.name }} />
+                <ProfileAvatar onLogout={onLogout} userName={{ firstName: user.login }} />
             </TopBlock>
-            <GreetingHeading>Hello, {user.name}!</GreetingHeading>
+            <GreetingHeading>Hello, {user.login}!</GreetingHeading>
             <TodoList />
         </PageContainer>
     )
 }
 
-MainPage = React.memo(MainPage)
+// MainPage = React.memo(MainPage)

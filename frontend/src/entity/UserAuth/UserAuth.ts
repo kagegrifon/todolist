@@ -1,6 +1,6 @@
 import { API } from 'shared/api'
 import { ISuccessAuthDTO, IUser, IUserAuthAbstract, IUserLogin } from './type'
-import { userAPIUrl } from 'entity/User/UserAPI'
+import { protectedAPI } from './protectedApi'
 
 export const authUrl = '/auth'
 
@@ -37,10 +37,10 @@ export class UserAuthAPI implements IUserAuthAbstract {
 
     public async logout(userId: IUser['id']) {
         try {
-            await API.request<IUser>({
+            await protectedAPI.request<IUser>({
                 url: `${authUrl}/logout`,
                 method: 'post',
-                data: userId,
+                data: { userId },
             })
         } catch (e) {
             // alert('Something happen while adding new task, check internet connection')
