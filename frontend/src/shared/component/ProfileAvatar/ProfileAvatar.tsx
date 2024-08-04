@@ -10,7 +10,7 @@ import { Logout } from '@mui/icons-material'
 const profileSettings = ['Logout'] as const
 
 type Props = {
-    userName: { lastName: string; firstName: string }
+    userName: { lastName?: string; firstName: string }
     onLogout: () => void
 }
 
@@ -32,13 +32,9 @@ export const ProfileAvatar = (props: Props) => {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                        {...stringAvatar(`${props.userName.firstName} ${props.userName.lastName}`)}
-                    />
-                </IconButton>
-            </Tooltip>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar {...stringAvatar(props.userName)} />
+            </IconButton>
             <Menu
                 sx={{ mt: '45px' }}
                 id='menu-appbar'
@@ -65,20 +61,17 @@ export const ProfileAvatar = (props: Props) => {
                                 Logout
                             </MenuItem>
                         ),
-                    // <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    //     <Typography textAlign='center'>{setting}</Typography>
-                    // </MenuItem>
                 )}
             </Menu>
         </Box>
     )
 }
 
-function stringAvatar(name: string) {
+function stringAvatar({ lastName = '', firstName }: { lastName?: string; firstName: string }) {
     return {
         sx: {
-            bgcolor: stringToColor(name),
+            bgcolor: stringToColor(lastName + firstName),
         },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        children: lastName ? `${firstName} ${lastName}` : `${firstName[0]}${firstName[1]}`,
     }
 }

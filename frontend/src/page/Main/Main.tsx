@@ -7,14 +7,7 @@ import { ProfileAvatar } from 'shared/component/ProfileAvatar/ProfileAvatar'
 import styled from '@emotion/styled'
 import { AppContext } from 'store'
 import { Navigate } from 'react-router-dom'
-
-const TESTING_PROP = {
-    userName: {
-        lastName: 'Kent',
-        firstName: 'Dodds',
-    },
-    onLogout: () => console.log('logout'),
-}
+import { useUserAuthAPI } from 'entity/UserAuth'
 
 export const TopBlock = styled.div`
     width: 100%;
@@ -31,6 +24,9 @@ export const GreetingHeading = styled.h2`
 
 export let MainPage: React.FC = () => {
     const { user } = React.useContext(AppContext)
+    const userAuthAPI = useUserAuthAPI()
+
+    const onLogout = () => userAuthAPI.logout(user.id)
 
     if (!user) {
         return <Navigate to={'/login'} replace />
@@ -41,9 +37,9 @@ export let MainPage: React.FC = () => {
             <TextureBackground />
             <TopBackground />
             <TopBlock>
-                <ProfileAvatar {...TESTING_PROP} />
+                <ProfileAvatar onLogout={onLogout} userName={{ firstName: user.name }} />
             </TopBlock>
-            <GreetingHeading>Hello, {TESTING_PROP.userName.firstName}!</GreetingHeading>
+            <GreetingHeading>Hello, {user.name}!</GreetingHeading>
             <TodoList />
         </PageContainer>
     )

@@ -11,14 +11,17 @@ import { useUserAPI } from 'entity/User'
 import { userAuthStore } from 'entity/UserAuth/AuthStore'
 
 export const App: React.FC = () => {
-    const [appLoading, setAppLoading] = React.useState(true)
+    const [appLoading, setAppLoading] = React.useState(false)
     const appContext = React.useContext(AppContext)
     const userAPI = useUserAPI()
 
     const loadUser = async () => {
         const token = userAuthStore.getToken()
+        let userData = null
 
-        const userData = jwtDecode(token)
+        if (token) {
+            userData = jwtDecode(token)
+        }
 
         if (userData && 'id' in userData) {
             try {

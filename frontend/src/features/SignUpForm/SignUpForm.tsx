@@ -30,7 +30,6 @@ export let SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
                 } catch (e) {
                     console.error(e)
                 }
-                //TODO: прикрутить контекст хотя бы
             }}
             noValidate
             sx={{ mt: 1 }}

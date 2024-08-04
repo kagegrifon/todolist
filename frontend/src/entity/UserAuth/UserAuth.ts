@@ -1,5 +1,6 @@
 import { API } from 'shared/api'
 import { ISuccessAuthDTO, IUser, IUserAuthAbstract, IUserLogin } from './type'
+import { userAPIUrl } from 'entity/User/UserAPI'
 
 export const authUrl = '/auth'
 
@@ -47,3 +48,5 @@ export class UserAuthAPI implements IUserAuthAbstract {
         }
     }
 }
+
+export const userAuthAPI = new UserAuthAPI()
