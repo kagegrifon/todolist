@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { UserAuth } from './UserAuth'
-import { IUserAuthAbstract } from './type'
+import { UserAPI } from './UserAPI'
+import { IUserAPIAbstract } from './type'
 
 // todo make context
-const userAuthAPI = new UserAuth()
+const userAPI = new UserAPI()
 
-export const useUserAuthAPI = (): IUserAuthAbstract => {
-    return React.useMemo(() => userAuthAPI, [])
+export const useUserAPI = (): IUserAPIAbstract => {
+    return React.useMemo(() => userAPI, [])
 }

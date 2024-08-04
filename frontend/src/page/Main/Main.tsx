@@ -5,6 +5,8 @@ import { TodoList } from 'widget/TodoList'
 import { TextureBackground, TopBackground } from 'shared/component/Background'
 import { ProfileAvatar } from 'shared/component/ProfileAvatar/ProfileAvatar'
 import styled from '@emotion/styled'
+import { AppContext } from 'store'
+import { Navigate } from 'react-router-dom'
 
 const TESTING_PROP = {
     userName: {
@@ -28,6 +30,12 @@ export const GreetingHeading = styled.h2`
 `
 
 export let MainPage: React.FC = () => {
+    const { user } = React.useContext(AppContext)
+
+    if (!user) {
+        return <Navigate to={'/login'} replace />
+    }
+
     return (
         <PageContainer>
             <TextureBackground />

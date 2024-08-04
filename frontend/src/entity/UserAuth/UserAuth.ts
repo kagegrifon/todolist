@@ -1,12 +1,12 @@
 import { API } from 'shared/api'
-import { IUser, IUserAuthAbstract, IUserLogin } from './type'
+import { ISuccessAuthDTO, IUser, IUserAuthAbstract, IUserLogin } from './type'
 
 export const authUrl = '/auth'
 
-export class UserAuth implements IUserAuthAbstract {
+export class UserAuthAPI implements IUserAuthAbstract {
     public async register(newUser: IUserLogin) {
         try {
-            const request = await API.request<IUser>({
+            const request = await API.request<ISuccessAuthDTO>({
                 url: `${authUrl}/register`,
                 method: 'post',
                 data: newUser,
@@ -21,7 +21,7 @@ export class UserAuth implements IUserAuthAbstract {
 
     public async login(user: IUserLogin) {
         try {
-            const request = await API.request<IUser>({
+            const request = await API.request<ISuccessAuthDTO>({
                 url: `${authUrl}/login`,
                 method: 'post',
                 data: user,
