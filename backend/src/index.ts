@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import morgan from 'morgan'
+
 import { todoRouter } from './entity/todo'
 import { dbSetup } from 'data-access/dbSetup'
 import { PORT } from 'config/env'
@@ -14,6 +16,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
+app.use(morgan('combined'))
 
 app.use('/api/auth', authRouter)
 app.use('/api/user', authMiddleware, userRouter)
