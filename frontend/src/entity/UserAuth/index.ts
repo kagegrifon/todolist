@@ -1,2 +1,2 @@
 export * from '../../features/UserAuthActions/hook'
-export * from './UserAuth'
+export * from './UserAuthAPI'

@@ -1,4 +1,4 @@
-import { userAuthAPI } from 'entity/UserAuth/UserAuth'
+import { userAuthAPI } from 'entity/UserAuth'
 import { IUserAuthAbstract, IUserLogin } from 'entity/UserAuth/type'
 import { userAuthStore } from 'entity/UserAuth/AuthStore'
 import { IUser } from 'entity/User/type'

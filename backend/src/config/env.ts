@@ -12,3 +12,8 @@ export const SMTP_APP_PASSWORD = process.env.SMTP_APP_PASSWORD
 export const APP_NAME = process.env.APP_NAME
 export const API_URL = process.env.API_URL
 export const CLIENT_URL = process.env.CLIENT_URL
+// export const ACCESS_TOKEN_TTL = '5m'
+// export const REFRESH_TOKEN_TTL = '30d'
+
+export const ACCESS_TOKEN_TTL = '15s'
+export const REFRESH_TOKEN_TTL = '30m'

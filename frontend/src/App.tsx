@@ -24,9 +24,13 @@ export const App: React.FC = () => {
             userData = jwtDecode(token)
         }
 
+        console.log('before loadUser', { userData })
+
         if (userData && 'id' in userData) {
             try {
                 setAppLoading(true)
+                console.log('loadUser', { userData })
+
                 const user = await userAPI.getById(Number(userData.id))
                 setUser(user)
             } finally {

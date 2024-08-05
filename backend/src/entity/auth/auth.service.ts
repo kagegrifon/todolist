@@ -109,18 +109,17 @@ class AuthService extends TypicalCRUDService<IAuth> implements AuthServiceAbstra
 
     async refresh(refreshToken: IGeneratedTokens['refreshToken']) {
         const userData = this.tokenService.validateRefreshToken(refreshToken)
-
         const tokenFromDB = await this.tokenService.getByToken(refreshToken)
 
         if (!userData || !tokenFromDB) {
             throw ApiError.UnauthorizedError()
         }
 
-        const existingUser = await this.userService.findByLogin(userData.login)
+        const existingUser = await this.userService.getById(userData.id)
         const token = this.tokenService.generateTokens(existingUser)
         this.tokenService.saveToken(existingUser.id, token.refreshToken)
 
-        return undefined
+        return { user: existingUser, token }
     }
 }
 

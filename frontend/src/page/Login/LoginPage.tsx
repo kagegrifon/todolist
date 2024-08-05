@@ -9,7 +9,8 @@ import { TextureBackground, TopBackground } from 'shared/component/Background'
 import { styled } from 'shared/globalDeps'
 import { LoginForm } from 'features/LoginForm'
 import { SignUpForm } from 'features/SignUpForm'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { AppContext } from 'store'
 
 const StyledPageContainer = styled(PageContainer)`
     display: flex;
@@ -30,6 +31,7 @@ const SmallButtonLink = styled(Button)`
 
 export let LoginPage: React.FC = () => {
     const navigate = useNavigate()
+    const { user } = React.useContext(AppContext)
     const [isLogin, setIsLogin] = React.useState(true)
 
     const switchLoginMode = React.useCallback(() => {
@@ -38,6 +40,12 @@ export let LoginPage: React.FC = () => {
 
     const onSuccess = () => {
         navigate('/')
+    }
+
+    console.log('LoginPage', { user })
+
+    if (user) {
+        return <Navigate to={'/'} replace />
     }
 
     return (

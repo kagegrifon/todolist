@@ -97,8 +97,7 @@ class AuthController {
     async refresh(req: Request, res: Response, next: NextFunction) {
         try {
             const { refreshToken } = req.cookies
-
-            if (!refreshToken) {
+            if (typeof refreshToken !== 'string' && !refreshToken) {
                 throw ApiError.UnauthorizedError()
             }
 

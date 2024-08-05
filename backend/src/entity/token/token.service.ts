@@ -2,7 +2,12 @@ import jwt from 'jsonwebtoken'
 import { TypicalCRUDService } from 'shared/service'
 import { tokenModel } from './token.model'
 import { AccessToken, IToken, RefreshToken, TokenModelAbstract, TokenServiceAbstract } from './type'
-import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from 'config/env'
+import {
+    ACCESS_TOKEN_TTL,
+    JWT_ACCESS_SECRET,
+    JWT_REFRESH_SECRET,
+    REFRESH_TOKEN_TTL,
+} from 'config/env'
 import { IUser } from 'entity/user/type'
 
 class TokenService extends TypicalCRUDService<IToken> implements TokenServiceAbstract {
@@ -13,8 +18,8 @@ class TokenService extends TypicalCRUDService<IToken> implements TokenServiceAbs
     }
 
     generateTokens(payload: IUser) {
-        const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, { expiresIn: '5m' })
-        const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, { expiresIn: '30d' })
+        const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, { expiresIn: ACCESS_TOKEN_TTL })
+        const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_TTL })
 
         return { accessToken, refreshToken }
     }
@@ -25,7 +30,6 @@ class TokenService extends TypicalCRUDService<IToken> implements TokenServiceAbs
         if (curRecord) {
             curRecord.refreshToken = refreshToken
             await this.model.update(curRecord.id, curRecord)
-
             return curRecord
         }
 
