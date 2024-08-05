@@ -15,5 +15,5 @@ export const CLIENT_URL = process.env.CLIENT_URL
 // export const ACCESS_TOKEN_TTL = '5m'
 // export const REFRESH_TOKEN_TTL = '30d'
 
-export const ACCESS_TOKEN_TTL = '15s'
+export const ACCESS_TOKEN_TTL = '6s'
 export const REFRESH_TOKEN_TTL = '30m'

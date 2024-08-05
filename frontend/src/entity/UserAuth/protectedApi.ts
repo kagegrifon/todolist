@@ -18,8 +18,7 @@ protectedAPI.interceptors.response.use(
     (response) => response,
     async (error) => {
         // если пришел статус 401, то запоминаем прошлый запрос
-
-        const originalRequest = error.request
+        const originalRequest = error.config
         const isRepeatedRetry = '_isRetry' in originalRequest && originalRequest['_isRetry']
 
         if (error.response.status === 401 && !isRepeatedRetry) {
