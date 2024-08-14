@@ -1,15 +1,16 @@
 import type { Knex } from 'knex'
 import { knexSnakeCaseMappers } from 'objection'
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from 'config/env'
 
 const config: { [key: string]: Knex.Config } = {
     development: {
         client: 'pg',
         connection: {
-            host: 'localhost',
-            port: 5432,
-            user: 'postgres',
-            password: 'postgres',
-            database: 'todolist',
+            host: DB_HOST,
+            port: DB_PORT,
+            user: DB_USER,
+            password: DB_PASSWORD,
+            database: DB_NAME,
         },
         pool: {
             min: 2,

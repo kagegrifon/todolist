@@ -12,6 +12,13 @@ export const SMTP_APP_PASSWORD = process.env.SMTP_APP_PASSWORD
 export const APP_NAME = process.env.APP_NAME
 export const API_URL = process.env.API_URL
 export const CLIENT_URL = process.env.CLIENT_URL
+
+export const DB_HOST = process.env.DB_HOST || 'localhost'
+export const DB_PORT = Number(process.env.DB_PORT) || 5432
+export const DB_USER = process.env.DB_USER || 'postgres'
+export const DB_PASSWORD = process.env.DB_PASSWORD
+export const DB_NAME = process.env.DB_NAME
+
 // export const ACCESS_TOKEN_TTL = '5m'
 // export const REFRESH_TOKEN_TTL = '30d'
 
