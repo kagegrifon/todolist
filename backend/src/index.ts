@@ -1,18 +1,38 @@
-import express from "express";
+import express from 'express'
 import cors from 'cors'
-import { todoRouter } from "./todo";
-import { dbSetup } from "data-access/dbSetup";
+import cookieParser from 'cookie-parser'
+import morgan from 'morgan'
 
-const app = express();
-const port = 3000;
+import { todoRouter } from './entity/todo'
+import { dbSetup } from 'data-access/dbSetup'
+import { PORT } from 'config/env'
+import { authRouter } from 'entity/auth'
+import { errorMiddleware } from './middleware/error-middleware'
+import { authMiddleware } from 'middleware/auth-middleware'
+import { userRouter } from 'entity/user/user.router'
 
-dbSetup()
+const app = express()
 
-app.use(cors())
+app.use(cors({ origin: ['http://localhost:9000'], credentials: true }))
 app.use(express.json())
+app.use(cookieParser())
+app.use(morgan('combined'))
 
-app.use('/api', todoRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/user', authMiddleware, userRouter)
+app.use('/api/todo', authMiddleware, todoRouter)
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
+app.use(errorMiddleware)
+
+function start() {
+    try {
+        dbSetup()
+        app.listen(PORT, () => {
+            return console.log(`Express is listening at http://localhost:${PORT}`)
+        })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+start()

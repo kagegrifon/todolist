@@ -2,14 +2,34 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import { useUserAuthAPI } from '../../entity/UserAuth'
+import { IconButton, InputAdornment } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { ISuccessAuthDTO } from 'entity/UserAuth/type'
 
-export let SignUpForm: React.FC = () => {
+type SignUpFormProps = { onSuccess: (userData: ISuccessAuthDTO) => void }
+
+export let SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
+    const [login, setLogin] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [repeatPass, setRepeatPass] = React.useState('')
+    const [showPassword, setShowPassword] = React.useState(false)
+    const [showRepeatPass, setShowRepeatPass] = React.useState(false)
+
+    const userAuthAPI = useUserAuthAPI()
+
     return (
         <Box
             component='form'
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
                 e.preventDefault()
-                console.log('sign up')
+
+                try {
+                    const userData = await userAuthAPI.register({ login, password })
+                    onSuccess(userData)
+                } catch (e) {
+                    console.error(e)
+                }
             }}
             noValidate
             sx={{ mt: 1 }}
@@ -22,6 +42,8 @@ export let SignUpForm: React.FC = () => {
                 label='Login'
                 name='login'
                 autoFocus
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
             />
             <TextField
                 margin='normal'
@@ -29,9 +51,24 @@ export let SignUpForm: React.FC = () => {
                 fullWidth
                 name='password'
                 label='Password'
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 id='password'
                 autoComplete='current-password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position='end' style={{ marginRight: '5px' }}>
+                            <IconButton
+                                aria-label='toggle password visibility'
+                                onClick={() => setShowPassword((curValue) => !curValue)}
+                                edge='end'
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
             <TextField
                 margin='normal'
@@ -39,8 +76,23 @@ export let SignUpForm: React.FC = () => {
                 fullWidth
                 name='repeat_password'
                 label='Repeat Password'
-                type='password'
+                type={showRepeatPass ? 'text' : 'password'}
                 id='repeat_password'
+                value={repeatPass}
+                onChange={(e) => setRepeatPass(e.target.value)}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position='end' style={{ marginRight: '5px' }}>
+                            <IconButton
+                                aria-label='toggle password visibility'
+                                onClick={() => setShowRepeatPass((curValue) => !curValue)}
+                                edge='end'
+                            >
+                                {showRepeatPass ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
 
             <Button
